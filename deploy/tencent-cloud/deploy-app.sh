@@ -9,7 +9,7 @@ cd "${APP_DIR}"
 
 if [[ ! -f ".env.production" ]]; then
   echo "Missing .env.production in ${APP_DIR}"
-  echo "Copy .env.production.example and fill in your values first."
+  echo "Copy deploy/tencent-cloud/env.production.example to .env.production and fill values first."
   exit 1
 fi
 

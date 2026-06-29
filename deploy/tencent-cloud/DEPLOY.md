@@ -34,7 +34,7 @@ bash deploy/tencent-cloud/setup-server.sh
 
 ```bash
 cd /var/www/ai-iep-platform
-cp .env.production.example .env.production
+cp deploy/tencent-cloud/env.production.example .env.production
 nano .env.production
 ```
 
