@@ -8,7 +8,7 @@ import { NextResponse } from "next/server";
 import type { Student } from "@/lib/types/student";
 
 /** IEP 生成含 4 轮 DeepSeek 调用，需较长执行时间 */
-export const maxDuration = 600;
+export const maxDuration = 300;
 
 export async function POST(request: Request) {
   try {
