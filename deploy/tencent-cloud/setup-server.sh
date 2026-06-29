@@ -1,65 +1,44 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# 在全新的 Ubuntu 22.04 轻量服务器上运行（需 root）
-# 用法: curl -fsSL <raw-url>/setup-server.sh | sudo bash
+# One-time setup for Tencent Cloud Lighthouse (Ubuntu 22.04+).
+# Run as root: bash setup-server.sh
 
 APP_DIR="/var/www/ai-iep-platform"
-REPO_URL="https://github.com/Danke123-chn/ai-iep-platform.git"
+NODE_MAJOR=20
 
-echo "==> 更新系统包"
+echo "==> Installing system packages..."
 export DEBIAN_FRONTEND=noninteractive
 apt-get update
-apt-get upgrade -y
+apt-get install -y curl git nginx ufw ca-certificates gnupg
 
-echo "==> 安装基础工具"
-apt-get install -y curl git nginx ufw
-
-echo "==> 安装 Node.js 20"
-if ! command -v node >/dev/null 2>&1 || [[ "$(node -v)" != v20* ]]; then
-  curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+echo "==> Installing Node.js ${NODE_MAJOR}.x..."
+if ! command -v node >/dev/null 2>&1; then
+  curl -fsSL "https://deb.nodesource.com/setup_${NODE_MAJOR}.x" | bash -
   apt-get install -y nodejs
 fi
 
-echo "==> 安装 PM2"
+echo "==> Installing PM2..."
 npm install -g pm2
 
-echo "==> 创建应用目录"
-mkdir -p "$APP_DIR"
-chown -R "${SUDO_USER:-root}:${SUDO_USER:-root}" "$APP_DIR" 2>/dev/null || true
+echo "==> Creating app directory..."
+mkdir -p "${APP_DIR}"
+chown -R "${SUDO_USER:-root}:${SUDO_USER:-root}" "${APP_DIR}" 2>/dev/null || true
 
-echo "==> 配置 Nginx"
-cat > /etc/nginx/sites-available/ai-iep-platform <<'NGINX'
-server {
-    listen 80;
-    server_name _;
-    client_max_body_size 20m;
-    location / {
-        proxy_pass http://127.0.0.1:3000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_read_timeout 300s;
-    }
-}
-NGINX
+echo "==> Configuring firewall..."
+ufw allow OpenSSH || true
+ufw allow 80/tcp || true
+ufw allow 443/tcp || true
+ufw --force enable || true
 
-ln -sf /etc/nginx/sites-available/ai-iep-platform /etc/nginx/sites-enabled/ai-iep-platform
-rm -f /etc/nginx/sites-enabled/default
-nginx -t
+echo "==> Enabling nginx..."
 systemctl enable nginx
-systemctl restart nginx
+systemctl start nginx
 
-echo "==> 配置防火墙"
-ufw allow OpenSSH
-ufw allow "Nginx Full"
-ufw --force enable
-
-echo "==> 服务器初始化完成"
-echo "下一步:"
-echo "  1. cd $APP_DIR && 配置 .env.production"
-echo "  2. bash deploy/tencent-cloud/deploy-app.sh"
+echo ""
+echo "Server setup complete."
+echo "Next steps:"
+echo "  1. Clone repo to ${APP_DIR}"
+echo "  2. Copy .env.production.example to ${APP_DIR}/.env.production and fill values"
+echo "  3. Run: bash ${APP_DIR}/deploy/tencent-cloud/deploy-app.sh"
+echo "  4. Copy nginx config: see deploy/tencent-cloud/DEPLOY.md"
