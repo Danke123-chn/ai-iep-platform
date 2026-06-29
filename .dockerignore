@@ -1,0 +1,8 @@
+node_modules
+.next
+.git
+.env*
+*.md
+tmp-docx
+tmp-vbmapp-report.pdf
+tsconfig.tsbuildinfo
