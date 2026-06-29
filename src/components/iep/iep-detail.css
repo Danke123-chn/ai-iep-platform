@@ -1,0 +1,116 @@
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .iep-document {
+    background: white !important;
+    color: black !important;
+    padding: 0 !important;
+  }
+
+  .iep-document * {
+    border-color: #d4d4d8 !important;
+  }
+
+  .iep-document .text-zinc-100,
+  .iep-document .text-zinc-200,
+  .iep-document .text-zinc-300 {
+    color: #18181b !important;
+  }
+
+  .iep-document .text-zinc-400,
+  .iep-document .text-zinc-500 {
+    color: #52525b !important;
+  }
+
+  .iep-document .bg-zinc-900,
+  .iep-document .bg-zinc-950,
+  .iep-document .bg-zinc-950\/50 {
+    background: white !important;
+  }
+
+  .iep-document section,
+  .iep-document article {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .iep-document .print-expand {
+    display: block !important;
+  }
+
+  .pdf-export-header {
+    display: block !important;
+  }
+}
+
+/* PDF 导出模式：白底黑字，隐藏交互元素 */
+body.pdf-export-active .no-print {
+  display: none !important;
+}
+
+body.pdf-export-active {
+  background: white !important;
+}
+
+.pdf-export-mode {
+  background: white !important;
+  color: black !important;
+  padding: 16px !important;
+}
+
+.pdf-export-mode * {
+  border-color: #d4d4d8 !important;
+}
+
+.pdf-export-mode .text-zinc-100,
+.pdf-export-mode .text-zinc-200,
+.pdf-export-mode .text-zinc-300,
+.pdf-export-mode .text-zinc-400 {
+  color: #18181b !important;
+}
+
+.pdf-export-mode .text-zinc-500,
+.pdf-export-mode .text-zinc-600 {
+  color: #52525b !important;
+}
+
+.pdf-export-mode .text-emerald-300 {
+  color: #047857 !important;
+}
+
+.pdf-export-mode .bg-zinc-900,
+.pdf-export-mode .bg-zinc-950,
+.pdf-export-mode .bg-zinc-950\/50,
+.pdf-export-mode .bg-gradient-to-r {
+  background: white !important;
+}
+
+.pdf-export-mode .rounded-xl,
+.pdf-export-mode .rounded-lg {
+  border-radius: 4px !important;
+}
+
+.pdf-export-mode .pdf-export-header {
+  display: block !important;
+  margin-bottom: 24px;
+}
+
+.pdf-export-mode section,
+.pdf-export-mode article {
+  break-inside: avoid;
+}
+
+.pdf-export-mode .print-expand {
+  display: block !important;
+}
+
+.pdf-export-mode .hidden.print\:block {
+  display: block !important;
+}

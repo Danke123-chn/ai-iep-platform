@@ -1,0 +1,1298 @@
+[
+  {
+    "item_number": 1,
+    "section": "activity",
+    "domain": "生活活动",
+    "category": "",
+    "skill_name": "入班、入座",
+    "description": "找到所在班级和座位，不在路上逗留、闲逛",
+    "sort_order": 1
+  },
+  {
+    "item_number": 2,
+    "section": "activity",
+    "domain": "生活活动",
+    "category": "",
+    "skill_name": "整理个人物品",
+    "description": "收拾书包、衣服、水杯等，放到指定位置",
+    "sort_order": 2
+  },
+  {
+    "item_number": 3,
+    "section": "activity",
+    "domain": "生活活动",
+    "category": "",
+    "skill_name": "交作业",
+    "description": "将前一天的作业交到指定位置",
+    "sort_order": 3
+  },
+  {
+    "item_number": 4,
+    "section": "activity",
+    "domain": "生活活动",
+    "category": "",
+    "skill_name": "晨读",
+    "description": "在座位上跟随领读学生，大声晨读",
+    "sort_order": 4
+  },
+  {
+    "item_number": 5,
+    "section": "activity",
+    "domain": "生活活动",
+    "category": "班级意识",
+    "skill_name": "认识所在学校、班级",
+    "description": "知道并找到自己的学校、班级",
+    "sort_order": 5
+  },
+  {
+    "item_number": 6,
+    "section": "activity",
+    "domain": "生活活动",
+    "category": "班级意识",
+    "skill_name": "认识熟悉的老师",
+    "description": "认识、说出老师的名字",
+    "sort_order": 6
+  },
+  {
+    "item_number": 7,
+    "section": "activity",
+    "domain": "生活活动",
+    "category": "班级意识",
+    "skill_name": "认识同学",
+    "description": "认识、说出同学的名字",
+    "sort_order": 7
+  },
+  {
+    "item_number": 8,
+    "section": "activity",
+    "domain": "生活活动",
+    "category": "卫生常规",
+    "skill_name": "个人卫生",
+    "description": "保持个人衣着、指甲、头发，干净整洁，有脏污会用纸巾清洁",
+    "sort_order": 8
+  },
+  {
+    "item_number": 9,
+    "section": "activity",
+    "domain": "生活活动",
+    "category": "卫生常规",
+    "skill_name": "班级卫生",
+    "description": "维护班级卫生，垃圾入娄，保持座位干净整洁，不在桌面乱涂乱画",
+    "sort_order": 9
+  },
+  {
+    "item_number": 10,
+    "section": "activity",
+    "domain": "生活活动",
+    "category": "卫生常规",
+    "skill_name": "值日生",
+    "description": "完成值日工作，如擦黑板、清理讲台、扫地等",
+    "sort_order": 10
+  },
+  {
+    "item_number": 11,
+    "section": "activity",
+    "domain": "生活活动",
+    "category": "安全意识",
+    "skill_name": "生活安全",
+    "description": "识别生活中常见危险，如电源、开水、刀具等，不做危险的事",
+    "sort_order": 11
+  },
+  {
+    "item_number": 12,
+    "section": "activity",
+    "domain": "生活活动",
+    "category": "安全意识",
+    "skill_name": "运动安全",
+    "description": "不在楼道追逐打闹，户外运动时，不离开大人视线，不给自己或他人造成危险等",
+    "sort_order": 12
+  },
+  {
+    "item_number": 13,
+    "section": "activity",
+    "domain": "生活活动",
+    "category": "安全意识",
+    "skill_name": "主动求助",
+    "description": "在遇到危险时主动求助大人，能提供简单信息，知道求助电话",
+    "sort_order": 13
+  },
+  {
+    "item_number": 14,
+    "section": "activity",
+    "domain": "生活活动",
+    "category": "生活自理",
+    "skill_name": "如厕",
+    "description": "独立如厕，能够分辨男女厕所",
+    "sort_order": 14
+  },
+  {
+    "item_number": 15,
+    "section": "activity",
+    "domain": "生活活动",
+    "category": "生活自理",
+    "skill_name": "吃饭喝水",
+    "description": "独立进食、喝水",
+    "sort_order": 15
+  },
+  {
+    "item_number": 16,
+    "section": "activity",
+    "domain": "生活活动",
+    "category": "生活自理",
+    "skill_name": "洗漱",
+    "description": "独立洗手，刷牙，洗脸，梳头发",
+    "sort_order": 16
+  },
+  {
+    "item_number": 17,
+    "section": "activity",
+    "domain": "生活活动",
+    "category": "生活自理",
+    "skill_name": "穿脱衣服鞋袜",
+    "description": "独立穿脱衣服、鞋袜，整理衣物",
+    "sort_order": 17
+  },
+  {
+    "item_number": 18,
+    "section": "activity",
+    "domain": "生活活动",
+    "category": "生活自理",
+    "skill_name": "午休",
+    "description": "午休时保持安静，不打扰他人",
+    "sort_order": 18
+  },
+  {
+    "item_number": 19,
+    "section": "activity",
+    "domain": "生活活动",
+    "category": "用眼健康",
+    "skill_name": "眼保健操",
+    "description": "跟随广播进行眼保健操，闭眼休息",
+    "sort_order": 19
+  },
+  {
+    "item_number": 20,
+    "section": "activity",
+    "domain": "生活活动",
+    "category": "放学常规",
+    "skill_name": "整理个人物品",
+    "description": "整理个人物品，收拾书包",
+    "sort_order": 20
+  },
+  {
+    "item_number": 21,
+    "section": "activity",
+    "domain": "生活活动",
+    "category": "放学常规",
+    "skill_name": "排队放学",
+    "description": "排队跟随队伍放学回家",
+    "sort_order": 21
+  },
+  {
+    "item_number": 22,
+    "section": "activity",
+    "domain": "生活活动",
+    "category": "放学常规",
+    "skill_name": "等待接送",
+    "description": "安静等待家人来接，离开时与老师道别",
+    "sort_order": 22
+  },
+  {
+    "item_number": 23,
+    "section": "activity",
+    "domain": "教学活动",
+    "category": "放学常规",
+    "skill_name": "课堂礼仪",
+    "description": "上课、下课向老师问好",
+    "sort_order": 23
+  },
+  {
+    "item_number": 24,
+    "section": "activity",
+    "domain": "教学活动",
+    "category": "放学常规",
+    "skill_name": "安坐",
+    "description": "大部分时候维持正确坐姿，达40分钟",
+    "sort_order": 24
+  },
+  {
+    "item_number": 25,
+    "section": "activity",
+    "domain": "教学活动",
+    "category": "放学常规",
+    "skill_name": "关注教师",
+    "description": "大部分时候关注教师及教学材料，达40分钟",
+    "sort_order": 25
+  },
+  {
+    "item_number": 26,
+    "section": "activity",
+    "domain": "教学活动",
+    "category": "放学常规",
+    "skill_name": "关注同学",
+    "description": "当同学发言或展示时，能够关注同学",
+    "sort_order": 26
+  },
+  {
+    "item_number": 27,
+    "section": "activity",
+    "domain": "教学活动",
+    "category": "放学常规",
+    "skill_name": "集体指令",
+    "description": "听从老师针对全体学生的简单指令，如“翻开书到X页”、“拿笔写字”等",
+    "sort_order": 27
+  },
+  {
+    "item_number": 28,
+    "section": "activity",
+    "domain": "教学活动",
+    "category": "放学常规",
+    "skill_name": "区辨性集体指令",
+    "description": "听从有区辨的集体指令，如“第一组的同学齐读”、“男生站起来”等",
+    "sort_order": 28
+  },
+  {
+    "item_number": 29,
+    "section": "activity",
+    "domain": "教学活动",
+    "category": "放学常规",
+    "skill_name": "回应提问",
+    "description": "回应老师的简单提问，如老师拿着字卡询问“这个怎么读?”学生能够回答老师的问题",
+    "sort_order": 29
+  },
+  {
+    "item_number": 30,
+    "section": "activity",
+    "domain": "教学活动",
+    "category": "放学常规",
+    "skill_name": "举手引起注意",
+    "description": "回答问题或有需要时通过举手引起老师的注意",
+    "sort_order": 30
+  },
+  {
+    "item_number": 31,
+    "section": "activity",
+    "domain": "教学活动",
+    "category": "放学常规",
+    "skill_name": "轮流等候",
+    "description": "在教学中，与其他同学一起等候轮到自己的回合",
+    "sort_order": 31
+  },
+  {
+    "item_number": 32,
+    "section": "activity",
+    "domain": "教学活动",
+    "category": "放学常规",
+    "skill_name": "学习新知",
+    "description": "从课堂中学到新的知识，如学会唱一首歌、认识字卡等",
+    "sort_order": 32
+  },
+  {
+    "item_number": 33,
+    "section": "activity",
+    "domain": "教学活动",
+    "category": "放学常规",
+    "skill_name": "独立工作",
+    "description": "独立完成老师要求的任务，如画画、描写、做手工等，持续时间达5分钟或以上",
+    "sort_order": 33
+  },
+  {
+    "item_number": 34,
+    "section": "activity",
+    "domain": "教学活动",
+    "category": "放学常规",
+    "skill_name": "记笔记",
+    "description": "根据老师的要求，在书本或作业本上记笔记",
+    "sort_order": 34
+  },
+  {
+    "item_number": 35,
+    "section": "activity",
+    "domain": "教学活动",
+    "category": "放学常规",
+    "skill_name": "小组讨论",
+    "description": "根据老师的要求，参与小组讨论",
+    "sort_order": 35
+  },
+  {
+    "item_number": 36,
+    "section": "activity",
+    "domain": "教学活动",
+    "category": "课间活动",
+    "skill_name": "收拾桌面",
+    "description": "收拾书本、文具等",
+    "sort_order": 36
+  },
+  {
+    "item_number": 37,
+    "section": "activity",
+    "domain": "教学活动",
+    "category": "课间活动",
+    "skill_name": "准备下节课用品",
+    "description": "根据课程表，准备下节课需用的书本、文具等",
+    "sort_order": 37
+  },
+  {
+    "item_number": 38,
+    "section": "activity",
+    "domain": "教学活动",
+    "category": "课间活动",
+    "skill_name": "如厕",
+    "description": "独立如厕，养成课间上厕所的习惯，不占用课堂时间上厕所",
+    "sort_order": 38
+  },
+  {
+    "item_number": 39,
+    "section": "activity",
+    "domain": "教学活动",
+    "category": "课间活动",
+    "skill_name": "喝水",
+    "description": "独立喝水、打水，养成课间喝水的习惯，不占用课堂时间上厕所",
+    "sort_order": 39
+  },
+  {
+    "item_number": 40,
+    "section": "activity",
+    "domain": "教学活动",
+    "category": "课间活动",
+    "skill_name": "自我休闲",
+    "description": "进行看书、画画、走廊散步、玩游戏等自我休闲活动",
+    "sort_order": 40
+  },
+  {
+    "item_number": 41,
+    "section": "activity",
+    "domain": "教学活动",
+    "category": "课间活动",
+    "skill_name": "社交活动",
+    "description": "进行与同学聊天、玩卡牌游戏、下棋等同伴社交活动",
+    "sort_order": 41
+  },
+  {
+    "item_number": 42,
+    "section": "activity",
+    "domain": "户外活动",
+    "category": "课间活动",
+    "skill_name": "跟随队伍",
+    "description": "跟随队伍前进，保持在队伍中，不离队",
+    "sort_order": 42
+  },
+  {
+    "item_number": 43,
+    "section": "activity",
+    "domain": "户外活动",
+    "category": "课间活动",
+    "skill_name": "上下楼梯",
+    "description": "动作协调地上下楼梯，靠右扶栏杆行走，避免蹦跳等危险行为",
+    "sort_order": 43
+  },
+  {
+    "item_number": 44,
+    "section": "activity",
+    "domain": "户外活动",
+    "category": "课间操",
+    "skill_name": "安站",
+    "description": "站在自己的位置上等待，不离开或打扰他人",
+    "sort_order": 44
+  },
+  {
+    "item_number": 45,
+    "section": "activity",
+    "domain": "户外活动",
+    "category": "课间操",
+    "skill_name": "跟随做操",
+    "description": "模仿老师或同伴完成规定动作",
+    "sort_order": 45
+  },
+  {
+    "item_number": 46,
+    "section": "activity",
+    "domain": "户外活动",
+    "category": "升国旗/集会",
+    "skill_name": "关注活动",
+    "description": "关注讲台及演讲者，理解活动内容",
+    "sort_order": 46
+  },
+  {
+    "item_number": 47,
+    "section": "activity",
+    "domain": "户外活动",
+    "category": "升国旗/集会",
+    "skill_name": "安坐等待",
+    "description": "大部分时候维持正确坐姿，不打扰他人",
+    "sort_order": 47
+  },
+  {
+    "item_number": 48,
+    "section": "activity",
+    "domain": "户外活动",
+    "category": "体育课",
+    "skill_name": "听从指令",
+    "description": "听从简单指令，如集合、向X看、向X转等",
+    "sort_order": 48
+  },
+  {
+    "item_number": 49,
+    "section": "activity",
+    "domain": "户外活动",
+    "category": "体育课",
+    "skill_name": "体育锻炼",
+    "description": "按照要求进行走、跑、跳、爬、拍球、跳绳等体育锻炼",
+    "sort_order": 49
+  },
+  {
+    "item_number": 50,
+    "section": "activity",
+    "domain": "户外活动",
+    "category": "体育课",
+    "skill_name": "规则游戏",
+    "description": "理解并遵守游戏规则，如老鹰捉小鸡、大泡泡小泡泡等",
+    "sort_order": 50
+  },
+  {
+    "item_number": 51,
+    "section": "activity",
+    "domain": "户外活动",
+    "category": "体育课",
+    "skill_name": "自由活动",
+    "description": "在指定区域玩耍，自主选择运动器械，玩耍过程中与同伴互动",
+    "sort_order": 51
+  },
+  {
+    "item_number": 52,
+    "section": "skill",
+    "domain": "语言与沟通",
+    "category": "语音",
+    "skill_name": "发音清晰",
+    "description": "日常语言清晰易懂",
+    "sort_order": 52
+  },
+  {
+    "item_number": 53,
+    "section": "skill",
+    "domain": "语言与沟通",
+    "category": "语音",
+    "skill_name": "声调与语调",
+    "description": "说话时四个声调区分清楚，句子有恰当的停顿、重音、升降调",
+    "sort_order": 53
+  },
+  {
+    "item_number": 54,
+    "section": "skill",
+    "domain": "语言与沟通",
+    "category": "语音",
+    "skill_name": "音量",
+    "description": "音量适宜，能够根据不同场合需要调整大小",
+    "sort_order": 54
+  },
+  {
+    "item_number": 55,
+    "section": "skill",
+    "domain": "语言与沟通",
+    "category": "理解性语言",
+    "skill_name": "呼名反应",
+    "description": "在听到他人喊自己名字后做出恰当反应",
+    "sort_order": 55
+  },
+  {
+    "item_number": 56,
+    "section": "skill",
+    "domain": "语言与沟通",
+    "category": "理解性语言",
+    "skill_name": "具象词汇",
+    "description": "理解日常词汇如日常用品、食物、文具等",
+    "sort_order": 56
+  },
+  {
+    "item_number": 57,
+    "section": "skill",
+    "domain": "语言与沟通",
+    "category": "理解性语言",
+    "skill_name": "抽象词汇",
+    "description": "理解形容词、副词、代词、介词等概念",
+    "sort_order": 57
+  },
+  {
+    "item_number": 58,
+    "section": "skill",
+    "domain": "语言与沟通",
+    "category": "理解性语言",
+    "skill_name": "简单指令",
+    "description": "理解并执行一到两步的简单指令，如坐椅子、拿水杯喝水等",
+    "sort_order": 58
+  },
+  {
+    "item_number": 59,
+    "section": "skill",
+    "domain": "语言与沟通",
+    "category": "理解性语言",
+    "skill_name": "复杂指令",
+    "description": "理解并执行两步以上的复杂指令，如画完画的小朋友把笔还给老师，洗手准备吃加餐",
+    "sort_order": 59
+  },
+  {
+    "item_number": 60,
+    "section": "skill",
+    "domain": "语言与沟通",
+    "category": "表达性语言",
+    "skill_name": "表达基本需求",
+    "description": "要求食物、玩具、上厕所等，如“我还要吃肉”",
+    "sort_order": 60
+  },
+  {
+    "item_number": 61,
+    "section": "skill",
+    "domain": "语言与沟通",
+    "category": "表达性语言",
+    "skill_name": "寻求帮助",
+    "description": "在需要时恰当寻求老师或同伴的帮助，如“帮我解扣子”",
+    "sort_order": 61
+  },
+  {
+    "item_number": 62,
+    "section": "skill",
+    "domain": "语言与沟通",
+    "category": "表达性语言",
+    "skill_name": "提问",
+    "description": "使用“什么”、“哪里”、“谁”等疑问词提问，如“一会儿干什么？”“这个怎么玩？”等",
+    "sort_order": 62
+  },
+  {
+    "item_number": 63,
+    "section": "skill",
+    "domain": "语言与沟通",
+    "category": "表达性语言",
+    "skill_name": "引起关注",
+    "description": "用简单语言引起他人对自己的关注或分享信息，如“陪我玩一会儿”“看，这里有大螃蟹”等",
+    "sort_order": 63
+  },
+  {
+    "item_number": 64,
+    "section": "skill",
+    "domain": "语言与沟通",
+    "category": "表达性语言",
+    "skill_name": "简单叙事",
+    "description": "用一到两句话描述一个事件",
+    "sort_order": 64
+  },
+  {
+    "item_number": 65,
+    "section": "skill",
+    "domain": "语言与沟通",
+    "category": "表达性语言",
+    "skill_name": "复杂叙事",
+    "description": "用三句话以上，有序、连贯、清楚地讲述事件，会使用修饰词",
+    "sort_order": 65
+  },
+  {
+    "item_number": 66,
+    "section": "skill",
+    "domain": "语言与沟通",
+    "category": "表达性语言",
+    "skill_name": "礼貌用语",
+    "description": "在恰当场景使用谢谢，不客气，对不起，没关系，麻烦您等礼貌用语",
+    "sort_order": 66
+  },
+  {
+    "item_number": 67,
+    "section": "skill",
+    "domain": "语言与沟通",
+    "category": "互动式语言",
+    "skill_name": "填空式对话",
+    "description": "补充他人的句子空白，如当老师说“现在要……”，学生说“洗手”",
+    "sort_order": 67
+  },
+  {
+    "item_number": 68,
+    "section": "skill",
+    "domain": "语言与沟通",
+    "category": "互动式语言",
+    "skill_name": "日常对话",
+    "description": "进行一到两个回合的简单对话，内容关于个人信息、家庭信息或当下活动",
+    "sort_order": 68
+  },
+  {
+    "item_number": 69,
+    "section": "skill",
+    "domain": "语言与沟通",
+    "category": "互动式语言",
+    "skill_name": "主题对话",
+    "description": "围绕一个主题进行3个以上来回的对话，内容关于兴趣爱好或某个事件",
+    "sort_order": 69
+  },
+  {
+    "item_number": 70,
+    "section": "skill",
+    "domain": "语言与沟通",
+    "category": "对话技巧",
+    "skill_name": "发起对话",
+    "description": "根据沟通对象，恰当地发起与他人的交谈",
+    "sort_order": 70
+  },
+  {
+    "item_number": 71,
+    "section": "skill",
+    "domain": "语言与沟通",
+    "category": "对话技巧",
+    "skill_name": "聆听轮候",
+    "description": "别人对他说话时，会留心聆听",
+    "sort_order": 71
+  },
+  {
+    "item_number": 72,
+    "section": "skill",
+    "domain": "语言与沟通",
+    "category": "对话技巧",
+    "skill_name": "回应对话",
+    "description": "别人对他说话时，会做出回应",
+    "sort_order": 72
+  },
+  {
+    "item_number": 73,
+    "section": "skill",
+    "domain": "语言与沟通",
+    "category": "对话技巧",
+    "skill_name": "完结对话",
+    "description": "恰当地完结对话",
+    "sort_order": 73
+  },
+  {
+    "item_number": 74,
+    "section": "skill",
+    "domain": "语言与沟通",
+    "category": "对话技巧",
+    "skill_name": "要求澄清",
+    "description": "对话时，遇到不明白的地方会要求澄清",
+    "sort_order": 74
+  },
+  {
+    "item_number": 75,
+    "section": "skill",
+    "domain": "语言与沟通",
+    "category": "对话技巧",
+    "skill_name": "询问信息",
+    "description": "自发地向同伴询问信息",
+    "sort_order": 75
+  },
+  {
+    "item_number": 76,
+    "section": "skill",
+    "domain": "语言与沟通",
+    "category": "对话技巧",
+    "skill_name": "获得和维持注意力",
+    "description": "在向某个人说话前，能通过叫名字、拍肩膀、进入视线等方式获取和维持他人注意力",
+    "sort_order": 76
+  },
+  {
+    "item_number": 77,
+    "section": "skill",
+    "domain": "语言与沟通",
+    "category": "对话技巧",
+    "skill_name": "传递信息",
+    "description": "能够向别人转达信息，如老师说“让小明回来排队”，学生找到小明说“老师让回来排队”",
+    "sort_order": 77
+  },
+  {
+    "item_number": 78,
+    "section": "skill",
+    "domain": "语言与沟通",
+    "category": "对话技巧",
+    "skill_name": "插话",
+    "description": "等到合适的时候再插话",
+    "sort_order": 78
+  },
+  {
+    "item_number": 79,
+    "section": "skill",
+    "domain": "语言与沟通",
+    "category": "非语言沟通",
+    "skill_name": "眼神接触",
+    "description": "对话时与他人有恰当的眼神接触",
+    "sort_order": 79
+  },
+  {
+    "item_number": 80,
+    "section": "skill",
+    "domain": "语言与沟通",
+    "category": "非语言沟通",
+    "skill_name": "社交距离",
+    "description": "与他人保持恰当的社交距离",
+    "sort_order": 80
+  },
+  {
+    "item_number": 81,
+    "section": "skill",
+    "domain": "语言与沟通",
+    "category": "非语言沟通",
+    "skill_name": "社交解读",
+    "description": "理解他人姿势、动作、语气、表情等非语言信息的含义",
+    "sort_order": 81
+  },
+  {
+    "item_number": 82,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "非语言沟通",
+    "skill_name": "平行游戏",
+    "description": "主动接近同伴并在他们周围玩游戏",
+    "sort_order": 82
+  },
+  {
+    "item_number": 83,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "非语言沟通",
+    "skill_name": "模仿同伴",
+    "description": "注意和模仿同伴的语言和行为",
+    "sort_order": 83
+  },
+  {
+    "item_number": 84,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "非语言沟通",
+    "skill_name": "形体互动",
+    "description": "与同伴有恰当的形体互动，如拉手、推秋千等",
+    "sort_order": 84
+  },
+  {
+    "item_number": 85,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "非语言沟通",
+    "skill_name": "回应指令",
+    "description": "听从同伴的简单指令，如“过来坐下”",
+    "sort_order": 85
+  },
+  {
+    "item_number": 86,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "非语言沟通",
+    "skill_name": "分享物品",
+    "description": "与他人分享自己的物品",
+    "sort_order": 86
+  },
+  {
+    "item_number": 87,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "非语言沟通",
+    "skill_name": "同伴提要求",
+    "description": "向同伴要求物品",
+    "sort_order": 87
+  },
+  {
+    "item_number": 88,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "非语言沟通",
+    "skill_name": "社会游戏",
+    "description": "持续与同伴进行社会游戏达3分钟或以上，可以是语言或非语言的互动",
+    "sort_order": 88
+  },
+  {
+    "item_number": 89,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "非语言沟通",
+    "skill_name": "邀请同伴",
+    "description": "主动邀请同伴参与他的游戏或活动",
+    "sort_order": 89
+  },
+  {
+    "item_number": 90,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "非语言沟通",
+    "skill_name": "合作游戏",
+    "description": "与同伴合作达到一个具体的结果",
+    "sort_order": 90
+  },
+  {
+    "item_number": 91,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "非语言沟通",
+    "skill_name": "假想游戏",
+    "description": "与同伴进行假装游戏达5分钟或以上",
+    "sort_order": 91
+  },
+  {
+    "item_number": 92,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "社交思考",
+    "skill_name": "参照与调节",
+    "description": "在一项活动中，随着同伴的行为改变来调整自己的行为，与同伴达到一致",
+    "sort_order": 92
+  },
+  {
+    "item_number": 93,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "社交思考",
+    "skill_name": "了解他人喜恶",
+    "description": "知道其他人喜欢或不喜欢什么",
+    "sort_order": 93
+  },
+  {
+    "item_number": 94,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "社交思考",
+    "skill_name": "谈论他人爱好",
+    "description": "谈论别人感兴趣的活动或事物",
+    "sort_order": 94
+  },
+  {
+    "item_number": 95,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "社交思考",
+    "skill_name": "注意他人兴趣",
+    "description": "注意到别人对某个话题或活动的兴趣并以此调整自己的行为",
+    "sort_order": 95
+  },
+  {
+    "item_number": 96,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "社交思考",
+    "skill_name": "换位思考",
+    "description": "理解别人的观点、感受或意图",
+    "sort_order": 96
+  },
+  {
+    "item_number": 97,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "社交思考",
+    "skill_name": "话外之意",
+    "description": "明白委婉说话、幽默语、谚语、比喻及挖苦等背后真正的含义",
+    "sort_order": 97
+  },
+  {
+    "item_number": 98,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "社交思考",
+    "skill_name": "社交调节",
+    "description": "根据沟通对象，调节自己的社交礼仪或行为",
+    "sort_order": 98
+  },
+  {
+    "item_number": 99,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "社交解难",
+    "skill_name": "分辨霸凌",
+    "description": "分辨自己是否被霸凌，包括口头欺凌、社交孤立、身体伤害",
+    "sort_order": 99
+  },
+  {
+    "item_number": 100,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "社交解难",
+    "skill_name": "面对霸凌",
+    "description": "恰当处理霸凌，语言制止他人（“停下来”“我要告诉老师了”等），离开霸凌环境，必要时求助大人",
+    "sort_order": 100
+  },
+  {
+    "item_number": 101,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "社交解难",
+    "skill_name": "处理挫败",
+    "description": "平和地处理挫败",
+    "sort_order": 101
+  },
+  {
+    "item_number": 102,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "社交解难",
+    "skill_name": "面对批评",
+    "description": "平静地面对及考虑他人的批评",
+    "sort_order": 102
+  },
+  {
+    "item_number": 103,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "社交解难",
+    "skill_name": "处理冲突",
+    "description": "有意见分歧或冲突时，寻找解决办法",
+    "sort_order": 103
+  },
+  {
+    "item_number": 104,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "友善行为",
+    "skill_name": "和平相处",
+    "description": "能与同学好好相处，不会打扰或挑衅别人",
+    "sort_order": 104
+  },
+  {
+    "item_number": 105,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "友善行为",
+    "skill_name": "赞美同伴",
+    "description": "懂得鼓励、赞美和欣赏别人",
+    "sort_order": 105
+  },
+  {
+    "item_number": 106,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "友善行为",
+    "skill_name": "指出错误",
+    "description": "只在合适合理的情况下，才投诉或指出别人的错误",
+    "sort_order": 106
+  },
+  {
+    "item_number": 107,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "友善行为",
+    "skill_name": "关心他人",
+    "description": "会关心或安慰别人",
+    "sort_order": 107
+  },
+  {
+    "item_number": 108,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "友善行为",
+    "skill_name": "帮助他人",
+    "description": "当看见他人不能做某件事情，会提供帮助使他人完成",
+    "sort_order": 108
+  },
+  {
+    "item_number": 109,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "友善行为",
+    "skill_name": "分享快乐",
+    "description": "会分享别人的欢乐（如，别人获胜时，会一起欢呼或祝贺别人）",
+    "sort_order": 109
+  },
+  {
+    "item_number": 110,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "友善行为",
+    "skill_name": "顾及他人感受",
+    "description": "不会说出令人尴尬或不安的话",
+    "sort_order": 110
+  },
+  {
+    "item_number": 111,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "友善行为",
+    "skill_name": "谦虚",
+    "description": "表现谦虚，不炫耀自己",
+    "sort_order": 111
+  },
+  {
+    "item_number": 112,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "友善行为",
+    "skill_name": "保守秘密",
+    "description": "保守别人的秘密及尊重隐私，不会随便透露",
+    "sort_order": 112
+  },
+  {
+    "item_number": 113,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "情绪管理",
+    "skill_name": "情绪稳定",
+    "description": "大部分时间保持比较平稳愉悦的情绪，喜欢幼儿园",
+    "sort_order": 113
+  },
+  {
+    "item_number": 114,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "情绪管理",
+    "skill_name": "理解常见情绪",
+    "description": "描述自己或他人的常见情绪，如开心、伤心、生气、害怕",
+    "sort_order": 114
+  },
+  {
+    "item_number": 115,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "情绪管理",
+    "skill_name": "理解复杂情绪",
+    "description": "描述自己或他人的复杂情绪，如自豪、尴尬、内疚、焦虑、嫉妒、沮丧等",
+    "sort_order": 115
+  },
+  {
+    "item_number": 116,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "情绪管理",
+    "skill_name": "情绪表达",
+    "description": "以恰当的表情、动作及语气来表达自我的情绪，及理解他人的表情、动作及语气传达的情绪",
+    "sort_order": 116
+  },
+  {
+    "item_number": 117,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "情绪管理",
+    "skill_name": "描述程度",
+    "description": "明白同类情绪有不同的程度，并能恰当地表达不同程度的情绪",
+    "sort_order": 117
+  },
+  {
+    "item_number": 118,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "情绪管理",
+    "skill_name": "理解诱因",
+    "description": "理解引发特定情绪的原因，如“我不能去户外玩了，我很伤心”“小明得到了一个贴画，他很开心”",
+    "sort_order": 118
+  },
+  {
+    "item_number": 119,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "情绪管理",
+    "skill_name": "提前预知",
+    "description": "预知什么情景会引起自己的不安",
+    "sort_order": 119
+  },
+  {
+    "item_number": 120,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "情绪管理",
+    "skill_name": "寻求帮助",
+    "description": "当出现负面的情绪时，会恰当地寻求他人的关注、安慰或帮助",
+    "sort_order": 120
+  },
+  {
+    "item_number": 121,
+    "section": "skill",
+    "domain": "社会与情绪",
+    "category": "情绪管理",
+    "skill_name": "自我调控",
+    "description": "运用恰当的策略调控情绪",
+    "sort_order": 121
+  },
+  {
+    "item_number": 122,
+    "section": "skill",
+    "domain": "学业技能",
+    "category": "情绪管理",
+    "skill_name": "汉字",
+    "description": "认识常见汉字",
+    "sort_order": 122
+  },
+  {
+    "item_number": 123,
+    "section": "skill",
+    "domain": "学业技能",
+    "category": "情绪管理",
+    "skill_name": "字图匹配",
+    "description": "将汉字与相应图片对应",
+    "sort_order": 123
+  },
+  {
+    "item_number": 124,
+    "section": "skill",
+    "domain": "学业技能",
+    "category": "情绪管理",
+    "skill_name": "阅读顺序",
+    "description": "当读一段文字时，会从左至右读",
+    "sort_order": 124
+  },
+  {
+    "item_number": 125,
+    "section": "skill",
+    "domain": "学业技能",
+    "category": "情绪管理",
+    "skill_name": "阅读词语",
+    "description": "阅读简单的词语",
+    "sort_order": 125
+  },
+  {
+    "item_number": 126,
+    "section": "skill",
+    "domain": "学业技能",
+    "category": "情绪管理",
+    "skill_name": "阅读句子",
+    "description": "阅读简单句子",
+    "sort_order": 126
+  },
+  {
+    "item_number": 127,
+    "section": "skill",
+    "domain": "学业技能",
+    "category": "情绪管理",
+    "skill_name": "阅读理解",
+    "description": "阅读并完成作业单上的题目，或回答相关简单问题",
+    "sort_order": 127
+  },
+  {
+    "item_number": 128,
+    "section": "skill",
+    "domain": "学业技能",
+    "category": "数学",
+    "skill_name": "唱数",
+    "description": "从1数到30",
+    "sort_order": 128
+  },
+  {
+    "item_number": 129,
+    "section": "skill",
+    "domain": "学业技能",
+    "category": "数学",
+    "skill_name": "点数",
+    "description": "点出物品的数量到30",
+    "sort_order": 129
+  },
+  {
+    "item_number": 130,
+    "section": "skill",
+    "domain": "学业技能",
+    "category": "数学",
+    "skill_name": "按数取物",
+    "description": "按照要求数出特定数量的物品",
+    "sort_order": 130
+  },
+  {
+    "item_number": 131,
+    "section": "skill",
+    "domain": "学业技能",
+    "category": "数学",
+    "skill_name": "命名数字",
+    "description": "认识100以内的数字",
+    "sort_order": 131
+  },
+  {
+    "item_number": 132,
+    "section": "skill",
+    "domain": "学业技能",
+    "category": "数学",
+    "skill_name": "数量配对",
+    "description": "配对30以内的数字和物品",
+    "sort_order": 132
+  },
+  {
+    "item_number": 133,
+    "section": "skill",
+    "domain": "学业技能",
+    "category": "数学",
+    "skill_name": "相对衡量",
+    "description": "具有多少、有无、相同不同、高矮、长短等衡量概念",
+    "sort_order": 133
+  },
+  {
+    "item_number": 134,
+    "section": "skill",
+    "domain": "学业技能",
+    "category": "书写",
+    "skill_name": "涂鸦",
+    "description": "握笔在纸上涂鸦",
+    "sort_order": 134
+  },
+  {
+    "item_number": 135,
+    "section": "skill",
+    "domain": "学业技能",
+    "category": "书写",
+    "skill_name": "区域内涂色",
+    "description": "大致在区域内涂色",
+    "sort_order": 135
+  },
+  {
+    "item_number": 136,
+    "section": "skill",
+    "domain": "学业技能",
+    "category": "书写",
+    "skill_name": "描线和形状",
+    "description": "准确地描线、曲线和直线的形状",
+    "sort_order": 136
+  },
+  {
+    "item_number": 137,
+    "section": "skill",
+    "domain": "学业技能",
+    "category": "书写",
+    "skill_name": "描拼音和数字",
+    "description": "准确地描数字和字母",
+    "sort_order": 137
+  },
+  {
+    "item_number": 138,
+    "section": "skill",
+    "domain": "学业技能",
+    "category": "书写",
+    "skill_name": "仿画直线",
+    "description": "仿画直线和形状，大小和方向一致",
+    "sort_order": 138
+  },
+  {
+    "item_number": 139,
+    "section": "skill",
+    "domain": "学业技能",
+    "category": "书写",
+    "skill_name": "仿画曲线",
+    "description": "仿画曲线和形状，大小和方向基本一致",
+    "sort_order": 139
+  },
+  {
+    "item_number": 140,
+    "section": "skill",
+    "domain": "学业技能",
+    "category": "书写",
+    "skill_name": "仿写拼音",
+    "description": "在线内仿写拼音字母",
+    "sort_order": 140
+  },
+  {
+    "item_number": 141,
+    "section": "skill",
+    "domain": "学业技能",
+    "category": "书写",
+    "skill_name": "仿写数字",
+    "description": "仿写数字",
+    "sort_order": 141
+  },
+  {
+    "item_number": 142,
+    "section": "skill",
+    "domain": "学业技能",
+    "category": "书写",
+    "skill_name": "书写拼音",
+    "description": "不用示范的情况下，书写拼音字母",
+    "sort_order": 142
+  },
+  {
+    "item_number": 143,
+    "section": "skill",
+    "domain": "学业技能",
+    "category": "书写",
+    "skill_name": "书写数字",
+    "description": "不用示范的情况下，书写数字",
+    "sort_order": 143
+  },
+  {
+    "item_number": 144,
+    "section": "skill",
+    "domain": "学业技能",
+    "category": "书写",
+    "skill_name": "书写汉字",
+    "description": "不用示范的情况下，书写常见汉字",
+    "sort_order": 144
+  }
+]
