@@ -1,14 +1,16 @@
 import Link from "next/link";
 import { LogoutButton } from "@/components/logout-button";
 import { ToastProvider } from "@/components/ui/toast";
+import { requireDashboardSession } from "@/lib/auth/guard-dashboard";
 
 export const dynamic = "force-dynamic";
 
-export default function DashboardLayout({
+export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  await requireDashboardSession();
   return (
     <div className="min-h-full bg-zinc-950">
       <header className="border-b border-zinc-800 bg-zinc-900">
