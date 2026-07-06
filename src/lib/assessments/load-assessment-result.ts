@@ -5,6 +5,7 @@ import {
 } from "@/lib/types/assessment_types";
 import type {
   AssessmentSession,
+  AssessmentTool,
   BarrierScore,
   Cpep3DevSummary,
   Cpep3PatSummary,

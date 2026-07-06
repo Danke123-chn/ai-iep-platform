@@ -38,11 +38,6 @@ export async function buildIepPdfBuffer(data: IepExportData): Promise<Buffer> {
     margin: { left: margin, right: margin },
     body: buildBasicInfoRows(data),
     styles: { font: "helvetica", fontSize: 9, cellPadding: 2 },
-    didParseCell: (hook) => {
-      if (hook.section === "body" && hook.column.index % 2 === 0) {
-        hook.cell.styles.fontStyle = "bold";
-      }
-    },
   });
 
   y = (doc as jsPDF & { lastAutoTable: { finalY: number } }).lastAutoTable.finalY + 10;
