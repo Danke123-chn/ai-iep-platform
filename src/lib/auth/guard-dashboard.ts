@@ -19,7 +19,6 @@ export async function requireDashboardSession(pathname = "/dashboard") {
   }
 
   if (isAccessTokenExpired(token)) {
-    cookieStore.delete(CLOUDBASE_SESSION_COOKIE);
     redirect(
       `/auth/login?redirect=${encodeURIComponent(pathname)}&reason=session_expired`,
     );
@@ -37,6 +36,7 @@ export async function redirectIfAuthenticated() {
   }
 
   if (token && isAccessTokenExpired(token)) {
-    cookieStore.delete(CLOUDBASE_SESSION_COOKIE);
+    // Expired token is ignored; do not mutate cookies during RSC render.
+    return;
   }
 }

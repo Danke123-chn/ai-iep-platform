@@ -1,7 +1,7 @@
 const path = require("path");
 const fs = require("fs");
 
-const appDir = process.env.APP_DIR || "/var/www/ai-iep-platform";
+const appDir = process.env.APP_DIR || __dirname;
 const envPath = path.join(appDir, ".env.production");
 const env = {};
 
