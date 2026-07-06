@@ -9,21 +9,35 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "cloudbase:migrate": "node scripts/run-cloudbase-migrations.mjs",
+    "cloudbase:migrate:dry-run": "node scripts/run-cloudbase-migrations.mjs --dry-run",
+    "cloudbase:export-data": "node scripts/export-supabase-data.mjs",
+    "cloudbase:import-data": "node scripts/import-cloudbase-data.mjs --truncate --use-original-user-ids",
+    "cloudbase:remap-users": "node scripts/remap-cloudbase-users.mjs",
+    "cloudbase:setup-env": "node scripts/setup-cloudbase-env.mjs",
+    "cloudbase:verify-env": "node scripts/verify-cloudbase-env.mjs"
   },
   "dependencies": {
+    "@cloudbase/js-sdk": "^3.6.2",
+    "@cloudbase/signature-nodejs": "^2.0.0",
     "@supabase/auth-helpers-nextjs": "^0.15.0",
     "@supabase/ssr": "^0.12.0",
     "@supabase/supabase-js": "^2.108.1",
     "docx": "^9.7.1",
     "file-saver": "^2.0.5",
+    "html2canvas": "^1.4.1",
     "html2pdf.js": "^0.14.0",
+    "jsonwebtoken": "^9.0.3",
     "jspdf": "^4.2.1",
     "jspdf-autotable": "^5.0.8",
+    "mammoth": "^1.12.0",
     "next": "16.2.9",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "recharts": "^3.9.0"
+    "recharts": "^3.9.0",
+    "unpdf": "^1.6.2",
+    "ws": "^8.21.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -36,6 +50,7 @@
     "eslint-config-next": "16.2.9",
     "pdf-parse": "^2.4.5",
     "tailwindcss": "^4",
+    "tencentcloud-sdk-nodejs": "^4.1.261",
     "typescript": "^5"
   }
 }

@@ -7,7 +7,7 @@
 // 通用类型
 // ============================================================
 
-export type AssessmentTool = 'vb_mapp' | 'c_pep3' | 'kg_integration' | 'elem_integration';
+export type AssessmentTool = 'vb_mapp' | 'c_pep3' | 'kg_integration' | 'elem_integration' | 'uploaded_report';
 export type SessionStatus = 'in_progress' | 'completed';
 
 export interface AssessmentSession {
@@ -17,6 +17,10 @@ export interface AssessmentSession {
   tool_type: AssessmentTool;
   status: SessionStatus;
   session_date: string;
+  school_year: string | null;
+  semester: "上学期" | "下学期" | null;
+  plan_start_date: string | null;
+  plan_end_date: string | null;
   total_score: number | null;
   summary: string | null;
   notes: string | null;
@@ -387,6 +391,22 @@ export const C_PEP3_PAT_SCORE_OPTIONS = [
 // ============================================================
 
 export const ASSESSMENT_TOOLS = [
+  {
+    value: 'uploaded_report' as const,
+    label: '上传评估报告',
+    iconLabel: '上传',
+    fullName: 'Upload External Assessment Report',
+    fullNameZh: '上传外部评估报告',
+    description: '上传 Word、PDF 或图片格式的已有评估报告，由 AI 解读并生成 IEP',
+    ageRange: '不限',
+    totalItems: 0,
+    sections: [
+      '支持 Word / PDF / 图片',
+      'AI 自动识别评估类型',
+      '解读报告并预填 IEP 领域',
+    ],
+    color: '#7C3AED',
+  },
   {
     value: 'vb_mapp' as const,
     label: 'VB-MAPP',

@@ -2,6 +2,8 @@ import { createClient } from "@/lib/supabase/server";
 import type { GoalProgressStatus, ShortTermGoal } from "@/types/iep";
 import { NextResponse } from "next/server";
 
+export const runtime = "nodejs";
+
 type ProgressBody = {
   iepGoalId: string;
   shortTermGoalIndex: number;

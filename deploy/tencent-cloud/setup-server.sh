@@ -35,6 +35,15 @@ echo "==> Enabling nginx..."
 systemctl enable nginx
 systemctl start nginx
 
+echo "==> Adding 2GB swap (helps Next.js build on 2GB RAM instances)..."
+if [[ ! -f /swapfile ]]; then
+  fallocate -l 2G /swapfile 2>/dev/null || dd if=/dev/zero of=/swapfile bs=1M count=2048
+  chmod 600 /swapfile
+  mkswap /swapfile
+  swapon /swapfile
+  grep -q '/swapfile' /etc/fstab || echo '/swapfile none swap sw 0 0' >> /etc/fstab
+fi
+
 echo ""
 echo "Server setup complete."
 echo "Next steps:"

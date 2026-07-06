@@ -1,8 +1,10 @@
 import { loadAssessmentResult, type VbMappResultData } from "@/lib/assessments/load-assessment-result";
 import { loadVbMappAssessmentData } from "@/lib/assessments/load-vb-mapp-data";
+import { isVbMappNt } from "@/lib/types/assessment_types";
 import { createClient } from "@/lib/supabase/server";
 import {
   buildDefaultReportContent,
+  isStaleUntestedNarrative,
   parseReportContent,
 } from "@/lib/vbmapp-report/report-content";
 import {
@@ -43,6 +45,18 @@ export async function loadVbMappReportData(
     sessionNotes: raw.session.notes,
     existing,
   });
+
+  const barrierScored = vbResult.barriers.filter((b) => !isVbMappNt(b.score)).length;
+  const transitionScored = vbResult.transitions.filter((t) => !isVbMappNt(t.score))
+    .length;
+
+  if (
+    existing &&
+    (isStaleUntestedNarrative(existing.barrierNarrative, barrierScored > 0) ||
+      isStaleUntestedNarrative(existing.transitionNarrative, transitionScored > 0))
+  ) {
+    await saveVbMappReportContent(sessionId, userId, reportContent);
+  }
 
   return {
     ...vbResult,

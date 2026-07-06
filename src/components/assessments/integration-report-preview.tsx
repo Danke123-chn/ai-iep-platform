@@ -32,7 +32,7 @@ export function IntegrationReportPreview({
   const [content, setContent] = useState(initialData.reportContent);
   const [generating, setGenerating] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [exporting, setExporting] = useState<"word" | "pdf" | null>(null);
+  const [exporting, setExporting] = useState<"word" | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
@@ -109,33 +109,6 @@ export function IntegrationReportPreview({
     URL.revokeObjectURL(url);
   }
 
-  async function exportPdf() {
-    if (!printRef.current) return;
-    setExporting("pdf");
-    setError(null);
-    await saveContent();
-    try {
-      const html2pdf = (await import("html2pdf.js")).default;
-      const prefix =
-        toolType === "kg_integration"
-          ? "幼儿园融合能力评估报告"
-          : "小学融合能力评估报告";
-      const filename = `${prefix}-${student.name}-${session.session_date.slice(0, 10)}.pdf`;
-      await html2pdf()
-        .set({
-          margin: [12, 10, 12, 10],
-          filename,
-          html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff" },
-          jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-        })
-        .from(printRef.current)
-        .save();
-    } catch {
-      setError("PDF 导出失败");
-    }
-    setExporting(null);
-  }
-
   function updateDomainAnalysis(domainKey: string, value: string) {
     setContent((c) => ({
       ...c,
@@ -180,14 +153,6 @@ export function IntegrationReportPreview({
           className="rounded-lg border border-zinc-600 px-4 py-2 text-sm text-zinc-200 hover:bg-zinc-800 disabled:opacity-50"
         >
           {exporting === "word" ? "导出中…" : "导出 Word"}
-        </button>
-        <button
-          type="button"
-          onClick={exportPdf}
-          disabled={exporting !== null}
-          className="rounded-lg border border-zinc-600 px-4 py-2 text-sm text-zinc-200 hover:bg-zinc-800 disabled:opacity-50"
-        >
-          {exporting === "pdf" ? "导出中…" : "导出 PDF"}
         </button>
         <Link
           href={`/dashboard/iep/new?studentId=${studentId}&sessionId=${sessionId}`}
@@ -255,7 +220,10 @@ export function IntegrationReportPreview({
           </p>
         </div>
 
-        <table className="mt-8 w-full border-collapse border border-zinc-400 text-xs">
+        <table
+          data-pdf-keep-together
+          className="mt-8 w-full border-collapse border border-zinc-400 text-xs"
+        >
           <thead>
             <tr className="bg-zinc-50">
               <th className="border border-zinc-400 px-2 py-2 text-left font-medium">

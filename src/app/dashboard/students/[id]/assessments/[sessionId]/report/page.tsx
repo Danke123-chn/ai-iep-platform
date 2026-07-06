@@ -43,6 +43,10 @@ export default async function AssessmentReportPage({
     redirect(formPath);
   }
 
+  if (toolType === "uploaded_report") {
+    redirect(`/dashboard/students/${id}/assessments/${sessionId}`);
+  }
+
   if (toolType === "c_pep3") {
     const data = await loadCpep3ReportData(id, sessionId, user.id);
     if (!data) notFound();
@@ -63,7 +67,7 @@ export default async function AssessmentReportPage({
             {data.student.name} · 评估日期 {data.session.session_date}
           </p>
           <p className="mt-2 text-xs text-zinc-500">
-            格式参照 PEP-3 标准评估报告（评估总结、发展/病理领域计分、教育训练纲要）。确认后可导出 Word/PDF，再进入 IEP 生成。
+            格式参照 PEP-3 标准评估报告（评估总结、发展/病理领域计分、教育训练纲要）。确认后可导出 Word，再进入 IEP 生成。
           </p>
         </div>
 
@@ -98,7 +102,7 @@ export default async function AssessmentReportPage({
             {data.student.name} · 评估日期 {data.session.session_date}
           </p>
           <p className="mt-2 text-xs text-zinc-500">
-            格式参照融合能力评估报告模板（各领域得分、现状分析、融合教育建议）。确认后可导出 Word/PDF，再进入 IEP 生成。
+            格式参照融合能力评估报告模板（各领域得分、现状分析、融合教育建议）。确认后可导出 Word，再进入 IEP 生成。
           </p>
         </div>
 
@@ -131,7 +135,7 @@ export default async function AssessmentReportPage({
             {data.student.name} · 评估日期 {data.session.session_date}
           </p>
           <p className="mt-2 text-xs text-zinc-500">
-            格式参照 VB-MAPP 评估报告（第一、二、五部分）。确认后可导出 Word/PDF，再进入 IEP 生成。
+            格式参照 VB-MAPP 评估报告（第一、二、五部分）。确认后可导出 Word，再进入 IEP 生成。
           </p>
         </div>
 

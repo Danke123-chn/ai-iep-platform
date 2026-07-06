@@ -1,4 +1,4 @@
-import { DevPassRateChart } from "@/components/assessments/dev-pass-rate-chart";
+import { DevPassRateChart } from "@/components/assessments/dev-pass-rate-chart.lazy";
 import { getPassRateColor } from "@/lib/assessments/map-assessment-to-iep";
 import type { KgIntegrationResultData } from "@/lib/assessments/load-assessment-result";
 import { KG_INTEGRATION_SECTION_LABELS } from "@/lib/types/assessment_types";

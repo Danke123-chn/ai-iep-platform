@@ -24,3 +24,61 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* PDF 导出：html2canvas 不支持 lab()/oklch()，使用 hex 覆盖 Tailwind 色值 */
+.pdf-export-mode {
+  background: #ffffff !important;
+  color: #18181b !important;
+  overflow: visible !important;
+  max-height: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.pdf-export-mode textarea {
+  overflow: visible !important;
+  resize: none !important;
+}
+
+.pdf-export-mode table {
+  page-break-inside: auto;
+}
+
+.pdf-export-mode tr {
+  page-break-inside: avoid;
+  page-break-after: auto;
+}
+
+.pdf-export-mode * {
+  border-color: #d4d4d8 !important;
+}
+
+.pdf-export-mode .text-zinc-100,
+.pdf-export-mode .text-zinc-200,
+.pdf-export-mode .text-zinc-300,
+.pdf-export-mode .text-zinc-400,
+.pdf-export-mode .text-zinc-700,
+.pdf-export-mode .text-zinc-800,
+.pdf-export-mode .text-zinc-900 {
+  color: #18181b !important;
+}
+
+.pdf-export-mode .text-zinc-500,
+.pdf-export-mode .text-zinc-600 {
+  color: #52525b !important;
+}
+
+.pdf-export-mode .bg-zinc-50 {
+  background-color: #fafafa !important;
+}
+
+.pdf-export-mode .bg-zinc-900,
+.pdf-export-mode .bg-zinc-950,
+.pdf-export-mode .bg-zinc-950\/50,
+.pdf-export-mode .bg-gradient-to-r {
+  background: #ffffff !important;
+}
+
+body.pdf-export-active {
+  background: #ffffff !important;
+}

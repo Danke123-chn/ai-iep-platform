@@ -7,6 +7,9 @@ import type { IepGenerateRequest, IepGoalRecord } from "@/types/iep";
 import { NextResponse } from "next/server";
 import type { Student } from "@/lib/types/student";
 
+/** CloudBase SDK 需 Node.js runtime */
+export const runtime = "nodejs";
+
 /** IEP 再次生成含 4 轮 DeepSeek 调用，需较长执行时间 */
 export const maxDuration = 300;
 

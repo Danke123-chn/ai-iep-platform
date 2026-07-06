@@ -21,7 +21,14 @@ import {
   getIntegrationConfig,
   isIntegrationTool,
 } from "@/lib/assessments/integration-assessment-config";
-import type { AssessmentTool } from "@/lib/types/assessment_types";
+import {
+  parseUploadedReportSummary,
+  type UploadedReportInterpretation,
+} from "@/lib/uploaded-report/types";
+
+function scoreMapKey(id: unknown): string {
+  return String(id).toLowerCase();
+}
 
 export type AssessmentResultData = {
   session: AssessmentSession;
@@ -51,6 +58,10 @@ export type IntegrationResultData = AssessmentResultData & {
   behaviorRecords: KgIntegrationBehaviorRecord[];
 };
 
+export type UploadedReportResultData = AssessmentResultData & {
+  interpretation: UploadedReportInterpretation;
+};
+
 export async function loadAssessmentResult(
   studentId: string,
   sessionId: string,
@@ -59,6 +70,7 @@ export async function loadAssessmentResult(
   | VbMappResultData
   | Cpep3ResultData
   | IntegrationResultData
+  | UploadedReportResultData
   | null
 > {
   const supabase = await createClient();
@@ -93,6 +105,12 @@ export async function loadAssessmentResult(
     toolLabel: getToolLabel(session.tool_type as AssessmentTool),
   };
 
+  if (session.tool_type === "uploaded_report") {
+    const interpretation = parseUploadedReportSummary(session.summary);
+    if (!interpretation) return null;
+    return { ...base, interpretation };
+  }
+
   if (session.tool_type === "vb_mapp") {
     const [summaryRes, barriersRes, transitionsRes, brScoresRes, trScoresRes] =
       await Promise.all([
@@ -116,26 +134,26 @@ export async function loadAssessmentResult(
 
     const brScoreMap = new Map(
       (brScoresRes.data ?? []).map((s) => [
-        s.barrier_id,
+        scoreMapKey(s.barrier_id),
         normalizeBarrierScore(s.score) ?? VB_MAPP_NT,
       ]),
     );
     const trScoreMap = new Map(
       (trScoresRes.data ?? []).map((s) => [
-        s.transition_id,
+        scoreMapKey(s.transition_id),
         normalizeBarrierScore(s.score) ?? VB_MAPP_NT,
       ]),
     );
 
     const barriers = ((barriersRes.data ?? []) as VbMappBarrier[]).map((b) => ({
       ...b,
-      score: brScoreMap.get(b.id) ?? VB_MAPP_NT,
+      score: brScoreMap.get(scoreMapKey(b.id)) ?? VB_MAPP_NT,
     }));
 
     const transitions = ((transitionsRes.data ?? []) as VbMappTransition[]).map(
       (t) => ({
         ...t,
-        score: trScoreMap.get(t.id) ?? VB_MAPP_NT,
+        score: trScoreMap.get(scoreMapKey(t.id)) ?? VB_MAPP_NT,
       }),
     );
 

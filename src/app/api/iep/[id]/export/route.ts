@@ -10,6 +10,8 @@ import {
 import { DeepSeekError } from "@/types/iep";
 import { NextResponse } from "next/server";
 
+export const runtime = "nodejs";
+
 type RouteParams = { params: Promise<{ id: string }> };
 
 export async function GET(request: Request, { params }: RouteParams) {
@@ -35,7 +37,7 @@ export async function GET(request: Request, { params }: RouteParams) {
       return NextResponse.json({ error: "请先登录" }, { status: 401 });
     }
 
-    const data = await loadIepExportData(id, user.id);
+    const data = await loadIepExportData(id);
     if (!data) {
       return NextResponse.json({ error: "IEP 不存在或无权访问" }, { status: 404 });
     }

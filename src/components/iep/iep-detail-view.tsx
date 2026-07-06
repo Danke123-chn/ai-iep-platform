@@ -2,12 +2,11 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import "./iep-detail.css";
 import {
   buildTeachingSuggestions,
   downloadExportFile,
-  exportIepToPdf,
   getIepStatusColor,
 } from "@/lib/iep-export/client";
 import {
@@ -56,7 +55,7 @@ function calculateAge(birthDate: string | null): string {
 function LevelBar({ level }: { level: number }) {
   const percent = (level / 5) * 100;
   return (
-    <div className="mt-2">
+    <div className="iep-level-bar mt-2">
       <div className="flex items-center justify-between text-xs text-zinc-500">
         <span>1 级</span>
         <span className="font-medium text-zinc-300">{level} 级</span>
@@ -83,7 +82,7 @@ function StatusBadge({
 }) {
   return (
     <span
-      className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${className}`}
+      className={`iep-stg-progress inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${className}`}
     >
       {status} · {label}
     </span>
@@ -92,7 +91,6 @@ function StatusBadge({
 
 export function IepDetailView({ iep, student, goals: initialGoals }: IepDetailViewProps) {
   const router = useRouter();
-  const documentRef = useRef<HTMLDivElement>(null);
   const { showToast } = useToast();
   const assessment = iep.assessment_data as IepGenerateRequest;
   const iepStatus = getIepStatus(iep);
@@ -100,7 +98,7 @@ export function IepDetailView({ iep, student, goals: initialGoals }: IepDetailVi
   const [expandedGoals, setExpandedGoals] = useState<Set<string>>(
     () => new Set(initialGoals.map((g) => g.id)),
   );
-  const [exporting, setExporting] = useState<"pdf" | "word" | "progress" | null>(
+  const [exporting, setExporting] = useState<"word" | "progress" | null>(
     null,
   );
   const [regenerating, setRegenerating] = useState(false);
@@ -125,19 +123,6 @@ export function IepDetailView({ iep, student, goals: initialGoals }: IepDetailVi
       else next.add(id);
       return next;
     });
-  }
-
-  async function handleExportPdf() {
-    if (!documentRef.current) return;
-    setExportError(null);
-    setExporting("pdf");
-    try {
-      await exportIepToPdf(documentRef.current, { iep, student, goals });
-    } catch {
-      setExportError("PDF 导出失败，请稍后重试");
-    } finally {
-      setExporting(null);
-    }
   }
 
   async function handleExportWord() {
@@ -297,14 +282,6 @@ export function IepDetailView({ iep, student, goals: initialGoals }: IepDetailVi
           </Link>
           <button
             type="button"
-            onClick={handleExportPdf}
-            disabled={!!exporting}
-            className="rounded-lg border border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-300 transition-colors hover:bg-zinc-800 disabled:opacity-50"
-          >
-            {exporting === "pdf" ? "导出中…" : "导出 PDF"}
-          </button>
-          <button
-            type="button"
             onClick={handleExportWord}
             disabled={!!exporting}
             className="rounded-lg border border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-300 transition-colors hover:bg-zinc-800 disabled:opacity-50"
@@ -371,7 +348,7 @@ export function IepDetailView({ iep, student, goals: initialGoals }: IepDetailVi
       )}
 
       {/* 可导出/打印的文档区域 */}
-      <div ref={documentRef} className="iep-document space-y-6">
+      <div className="iep-document space-y-6">
         <header className="pdf-export-header hidden text-center">
           <h1 className="text-2xl font-bold text-black">个别化教育计划（IEP）</h1>
           <p className="mt-2 text-sm text-zinc-700">
@@ -380,11 +357,14 @@ export function IepDetailView({ iep, student, goals: initialGoals }: IepDetailVi
         </header>
 
         {/* 基本信息 */}
-        <section className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
+        <section
+          data-pdf-keep-together
+          className="rounded-xl border border-zinc-800 bg-zinc-900 p-5"
+        >
           <h2 className="mb-4 text-sm font-medium uppercase tracking-wide text-zinc-500">
             基本信息
           </h2>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="iep-field-list grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <InfoItem label="姓名" value={student?.name ?? "—"} />
             <InfoItem label="性别" value={student?.gender ?? "—"} />
             <InfoItem label="年龄" value={calculateAge(student?.birth_date ?? null)} />
@@ -419,16 +399,17 @@ export function IepDetailView({ iep, student, goals: initialGoals }: IepDetailVi
           <h2 className="mb-4 text-sm font-medium uppercase tracking-wide text-zinc-500">
             发展现状评估摘要
           </h2>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="iep-domain-list grid gap-4 sm:grid-cols-2">
             {(assessment.domains ?? []).map((domain) => (
               <div
                 key={domain.key}
-                className="rounded-lg border border-zinc-800 bg-zinc-950/50 p-4"
+                data-pdf-keep-together
+                className="iep-domain-card rounded-lg border border-zinc-800 bg-zinc-950/50 p-4"
               >
                 <div className="flex items-start justify-between gap-2">
                   <h3 className="font-medium text-zinc-100">{domain.name}</h3>
                   {domain.level && (
-                    <span className="shrink-0 rounded-full border border-zinc-700 bg-zinc-900 px-2.5 py-0.5 text-xs font-semibold text-emerald-300">
+                    <span className="iep-domain-level shrink-0 rounded-full border border-zinc-700 bg-zinc-900 px-2.5 py-0.5 text-xs font-semibold text-emerald-300">
                       {domain.level} 级
                     </span>
                   )}
@@ -442,7 +423,10 @@ export function IepDetailView({ iep, student, goals: initialGoals }: IepDetailVi
                   </>
                 )}
                 {domain.description && (
-                  <p className="mt-3 text-sm leading-relaxed text-zinc-400">
+                  <p
+                    data-pdf-text-block
+                    className="mt-3 text-sm leading-relaxed text-zinc-400"
+                  >
                     {domain.description}
                   </p>
                 )}
@@ -481,21 +465,25 @@ export function IepDetailView({ iep, student, goals: initialGoals }: IepDetailVi
                   </span>
                 </button>
 
-                <div
-                  className={`border-t border-zinc-800 px-5 py-4 ${expandedGoals.has(goal.id) ? "block" : "hidden print:block"}`}
-                >
-                  <p className="hidden text-lg font-medium text-zinc-100 print:block">
-                    {goal.domain_name}
+                <div className="pdf-goal-header hidden border-b border-zinc-800 px-5 py-4 pdf-export:block print:block">
+                  <h3 className="font-medium text-zinc-100">{goal.domain_name}</h3>
+                  <p className="mt-0.5 text-xs text-zinc-500">
+                    现状：{goal.current_level} · {goal.short_term_goals.length} 项短期目标
                   </p>
+                </div>
 
-                  <div className="rounded-lg border border-zinc-800 bg-zinc-950/50 p-4">
-                    <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
-                      长期目标
-                    </p>
-                    <p className="mt-1 text-sm font-semibold leading-relaxed text-zinc-100">
-                      {goal.long_term_goal}
-                    </p>
-                  </div>
+                <div
+                  className={`border-t border-zinc-800 px-5 py-4 ${expandedGoals.has(goal.id) ? "block" : "hidden pdf-export:block print:block"}`}
+                >
+                  <div data-pdf-keep-together className="iep-goal-long rounded-lg border border-zinc-800 bg-zinc-950/50 p-4">
+                      <h4 className="text-sm font-semibold text-zinc-300">长期目标</h4>
+                      <p
+                        data-pdf-text-block
+                        className="mt-2 text-sm leading-relaxed text-zinc-100"
+                      >
+                        {goal.long_term_goal}
+                      </p>
+                    </div>
 
                   <div className="mt-4 space-y-3">
                     {goal.short_term_goals.map((stg, index) => {
@@ -504,16 +492,19 @@ export function IepDetailView({ iep, student, goals: initialGoals }: IepDetailVi
                       return (
                         <div
                           key={index}
-                          className="rounded-lg border border-zinc-800 bg-zinc-950 p-4 pl-6"
+                          data-pdf-keep-together
+                          className="iep-stg-block rounded-lg border border-zinc-800 bg-zinc-950 p-4"
                         >
-                          <div className="flex flex-wrap items-start justify-between gap-2">
-                            <p className="flex-1 text-sm text-zinc-200">
-                              <span className="mr-2 text-zinc-600">
-                                {index + 1}.
-                              </span>
-                              {stg.content}
-                            </p>
-                            <div className="flex shrink-0 items-center gap-2">
+                          <h4 className="text-sm font-semibold text-zinc-200">
+                            短期目标 {index + 1}
+                          </h4>
+                          <p
+                            data-pdf-text-block
+                            className="mt-2 text-sm leading-relaxed text-zinc-200"
+                          >
+                            {stg.content}
+                          </p>
+                          <div className="mt-3 flex flex-wrap items-center gap-2">
                               {progressStatus ? (
                                 <StatusBadge
                                   status={progressStatus}
@@ -521,7 +512,7 @@ export function IepDetailView({ iep, student, goals: initialGoals }: IepDetailVi
                                   className={getProgressStatusColor(progressStatus)}
                                 />
                               ) : (
-                                <span className="rounded-full border border-zinc-700 px-2.5 py-0.5 text-xs text-zinc-500">
+                                <span className="iep-stg-progress rounded-full border border-zinc-700 px-2.5 py-0.5 text-xs text-zinc-500">
                                   未更新
                                 </span>
                               )}
@@ -540,8 +531,10 @@ export function IepDetailView({ iep, student, goals: initialGoals }: IepDetailVi
                                 更新进度
                               </button>
                             </div>
-                          </div>
-                          <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 pl-5 text-xs text-zinc-500">
+                          <div
+                            data-pdf-text-block
+                            className="iep-stg-meta mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-zinc-500"
+                          >
                             <span>评量：{stg.assessmentMethod}</span>
                             <span>
                               {stg.startDate} → {stg.endDate}
@@ -551,7 +544,10 @@ export function IepDetailView({ iep, student, goals: initialGoals }: IepDetailVi
                             )}
                           </div>
                           {stg.progress_notes && (
-                            <p className="mt-2 pl-5 text-xs italic text-zinc-400">
+                            <p
+                              data-pdf-text-block
+                              className="mt-2 text-xs italic text-zinc-400"
+                            >
                               备注：{stg.progress_notes}
                             </p>
                           )}
@@ -565,11 +561,14 @@ export function IepDetailView({ iep, student, goals: initialGoals }: IepDetailVi
         </section>
 
         {/* 教学决定建议 */}
-        <section className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
+        <section
+          data-pdf-keep-together
+          className="rounded-xl border border-zinc-800 bg-zinc-900 p-5"
+        >
           <h2 className="mb-4 text-sm font-medium uppercase tracking-wide text-zinc-500">
             教学决定建议
           </h2>
-          <ul className="space-y-2 text-sm leading-relaxed text-zinc-300">
+          <ul className="iep-suggestion-list space-y-2 text-sm leading-relaxed text-zinc-300">
             {teachingSuggestions.map((item, index) => (
               <li key={index} className="flex gap-2">
                 <span className="shrink-0 text-zinc-500">•</span>
@@ -580,11 +579,14 @@ export function IepDetailView({ iep, student, goals: initialGoals }: IepDetailVi
         </section>
 
         {/* 签名区域 */}
-        <section className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
+        <section
+          data-pdf-keep-together
+          className="rounded-xl border border-zinc-800 bg-zinc-900 p-5"
+        >
           <h2 className="mb-6 text-sm font-medium uppercase tracking-wide text-zinc-500">
             签名确认
           </h2>
-          <div className="grid gap-8 sm:grid-cols-2">
+          <div className="iep-signature-list grid gap-8 sm:grid-cols-2">
             <SignatureBlock title="班主任签名" />
             <SignatureBlock title="家长签名" />
           </div>
@@ -604,8 +606,8 @@ function InfoItem({
   className?: string;
 }) {
   return (
-    <div className={className}>
-      <p className="text-xs text-zinc-500">{label}</p>
+    <div className={`iep-info-field ${className}`.trim()}>
+      <h3 className="text-xs font-medium text-zinc-500">{label}</h3>
       <p className="mt-0.5 text-sm text-zinc-200">{value}</p>
     </div>
   );
@@ -613,8 +615,8 @@ function InfoItem({
 
 function SignatureBlock({ title }: { title: string }) {
   return (
-    <div>
-      <p className="text-sm font-medium text-zinc-300">{title}</p>
+    <div className="iep-signature-block">
+      <h3 className="text-sm font-medium text-zinc-300">{title}</h3>
       <div className="mt-4 border-b border-zinc-700 pb-8" />
       <p className="mt-3 text-xs text-zinc-500">日期：________________</p>
     </div>

@@ -6,16 +6,22 @@ import { formatDisabilityTypes, formatPlacementTypes } from "@/lib/types/student
 import { levelLabelZh } from "@/lib/vbmapp-report/score-data";
 import type { VbMappReportData } from "@/lib/vbmapp-report/types";
 import {
+  INFO_LABEL_WIDTH_6,
+  INFO_VALUE_WIDTH_6,
+  INFO_VALUE_WIDTH_6_LAST,
+  wordLabelCell,
+  wordTableLayout,
+  wordTableRow,
+  wordValueCell,
+} from "@/lib/export/word-table-cells";
+import {
   AlignmentType,
-  BorderStyle,
   Document,
   Packer,
   Paragraph,
   Table,
-  TableCell,
   TableRow,
   TextRun,
-  WidthType,
 } from "docx";
 
 const FONT = "SimSun";
@@ -23,12 +29,8 @@ const SIZE_TITLE = 52;
 const SIZE_NORMAL = 24;
 const SIZE_SMALL = 21;
 
-const cellBorder = {
-  top: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
-  bottom: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
-  left: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
-  right: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
-};
+const SCORE_GRID_WIDTHS = [16, 14, 14, 14, 10, 10, 10, 12];
+const ITEM_TABLE_WIDTHS = [8, 52, 20, 20];
 
 function p(
   text: string,
@@ -43,25 +45,6 @@ function p(
         font: FONT,
         size: opts?.size ?? SIZE_NORMAL,
         bold: opts?.bold,
-      }),
-    ],
-  });
-}
-
-function cell(text: string, opts?: { bold?: boolean; width?: number }) {
-  return new TableCell({
-    borders: cellBorder,
-    width: opts?.width ? { size: opts.width, type: WidthType.PERCENTAGE } : undefined,
-    children: [
-      new Paragraph({
-        children: [
-          new TextRun({
-            text,
-            font: FONT,
-            size: SIZE_SMALL,
-            bold: opts?.bold,
-          }),
-        ],
       }),
     ],
   });
@@ -98,48 +81,46 @@ export async function buildVbMappReportWordBuffer(
   const part1 = [
     p("第一部分  学生基本信息", { bold: true }),
     new Table({
-      width: { size: 100, type: WidthType.PERCENTAGE },
+      ...wordTableLayout,
       rows: [
         new TableRow({
           children: [
-            cell("学生姓名", { bold: true, width: 15 }),
-            cell(student.name, { width: 18 }),
-            cell("学生性别", { bold: true, width: 15 }),
-            cell(student.gender ?? "", { width: 18 }),
-            cell("出生日期", { bold: true, width: 15 }),
-            cell(formatBirthDate(student.birth_date), { width: 19 }),
+            wordLabelCell("学生姓名", INFO_LABEL_WIDTH_6),
+            wordValueCell(student.name, INFO_VALUE_WIDTH_6),
+            wordLabelCell("学生性别", INFO_LABEL_WIDTH_6),
+            wordValueCell(student.gender ?? "", INFO_VALUE_WIDTH_6),
+            wordLabelCell("出生日期", INFO_LABEL_WIDTH_6),
+            wordValueCell(formatBirthDate(student.birth_date), INFO_VALUE_WIDTH_6_LAST),
           ],
         }),
         new TableRow({
           children: [
-            cell("诊断结果", { bold: true }),
-            cell(formatDisabilityTypes(student.disability_types), { width: 35 }),
-            cell("目前安置形式", { bold: true }),
-            cell(formatPlacementTypes(student.placement_types), { width: 35 }),
+            wordLabelCell("诊断结果"),
+            wordValueCell(formatDisabilityTypes(student.disability_types)),
+            wordLabelCell("目前安置形式"),
+            wordValueCell(formatPlacementTypes(student.placement_types)),
           ],
         }),
         new TableRow({
           children: [
-            cell("学校", { bold: true }),
-            cell(student.school ?? "", { width: 35 }),
-            cell("年级班级", { bold: true }),
-            cell(`${student.grade ?? ""} ${student.class_name ?? ""}`.trim(), {
-              width: 35,
-            }),
+            wordLabelCell("学校"),
+            wordValueCell(student.school ?? ""),
+            wordLabelCell("年级班级"),
+            wordValueCell(`${student.grade ?? ""} ${student.class_name ?? ""}`.trim()),
           ],
         }),
         new TableRow({
           children: [
-            cell("家长姓名", { bold: true }),
-            cell(student.parent_name ?? "", { width: 35 }),
-            cell("联系电话", { bold: true }),
-            cell(student.parent_phone ?? "", { width: 35 }),
+            wordLabelCell("家长姓名"),
+            wordValueCell(student.parent_name ?? ""),
+            wordLabelCell("联系电话"),
+            wordValueCell(student.parent_phone ?? ""),
           ],
         }),
         new TableRow({
           children: [
-            cell("备注", { bold: true }),
-            cell(student.family_notes ?? "", { width: 85 }),
+            wordLabelCell("备注"),
+            wordValueCell(student.family_notes ?? "", 82, 3),
           ],
         }),
       ],
@@ -160,34 +141,36 @@ export async function buildVbMappReportWordBuffer(
   );
 
   const scoreGrid = new Table({
-    width: { size: 100, type: WidthType.PERCENTAGE },
+    ...wordTableLayout,
     rows: [
-      new TableRow({
-        children: [
-          cell("领域", { bold: true, width: 16 }),
-          cell("第一级得分", { bold: true, width: 14 }),
-          cell("第二级得分", { bold: true, width: 14 }),
-          cell("第三级得分", { bold: true, width: 14 }),
-          cell("1分", { bold: true, width: 10 }),
-          cell("1/2分", { bold: true, width: 10 }),
-          cell("0分", { bold: true, width: 10 }),
-          cell("未测", { bold: true, width: 12 }),
+      wordTableRow(
+        [
+          "领域",
+          "第一级得分",
+          "第二级得分",
+          "第三级得分",
+          "1分",
+          "1/2分",
+          "0分",
+          "未测",
         ],
-      }),
-      ...domainScores.map(
-        (row) =>
-          new TableRow({
-            children: [
-              cell(row.domainLabel),
-              cell(`${row.level1Score}/${row.level1Total}`),
-              cell(`${row.level2Score}/${row.level2Total}`),
-              cell(`${row.level3Score}/${row.level3Total}`),
-              cell(String(row.passed)),
-              cell(String(row.partial)),
-              cell(String(row.failed)),
-              cell(String(row.notTested)),
-            ],
-          }),
+        SCORE_GRID_WIDTHS,
+        { header: true },
+      ),
+      ...domainScores.map((row) =>
+        wordTableRow(
+          [
+            row.domainLabel,
+            `${row.level1Score}/${row.level1Total}`,
+            `${row.level2Score}/${row.level2Total}`,
+            `${row.level3Score}/${row.level3Total}`,
+            String(row.passed),
+            String(row.partial),
+            String(row.failed),
+            String(row.notTested),
+          ],
+          SCORE_GRID_WIDTHS,
+        ),
       ),
     ],
   });
@@ -198,29 +181,25 @@ export async function buildVbMappReportWordBuffer(
     p("障碍评估："),
     p(content.barrierNarrative),
     new Table({
-      width: { size: 100, type: WidthType.PERCENTAGE },
+      ...wordTableLayout,
       rows: [
-        new TableRow({
-          children: [
-            cell("序号", { bold: true, width: 8 }),
-            cell("障碍项目", { bold: true, width: 52 }),
-            cell("类别", { bold: true, width: 20 }),
-            cell("严重度", { bold: true, width: 20 }),
-          ],
-        }),
+        wordTableRow(
+          ["序号", "障碍项目", "类别", "严重度"],
+          ITEM_TABLE_WIDTHS,
+          { header: true },
+        ),
         ...barriers.map((b, i) =>
-          new TableRow({
-            children: [
-              cell(String(i + 1)),
-              cell(b.barrier_name_zh),
-              cell(b.category),
-              cell(
-                isVbMappNt(b.score)
-                  ? "未测"
-                  : getVbMappSeverityLabel(b.score),
-              ),
+          wordTableRow(
+            [
+              String(i + 1),
+              b.barrier_name_zh,
+              b.category,
+              isVbMappNt(b.score)
+                ? "未测"
+                : getVbMappSeverityLabel(b.score),
             ],
-          }),
+            ITEM_TABLE_WIDTHS,
+          ),
         ),
       ],
     }),
@@ -232,29 +211,25 @@ export async function buildVbMappReportWordBuffer(
     p("转衔评估："),
     p(content.transitionNarrative),
     new Table({
-      width: { size: 100, type: WidthType.PERCENTAGE },
+      ...wordTableLayout,
       rows: [
-        new TableRow({
-          children: [
-            cell("序号", { bold: true, width: 8 }),
-            cell("转衔项目", { bold: true, width: 52 }),
-            cell("类别", { bold: true, width: 20 }),
-            cell("得分", { bold: true, width: 20 }),
-          ],
-        }),
+        wordTableRow(
+          ["序号", "转衔项目", "类别", "得分"],
+          ITEM_TABLE_WIDTHS,
+          { header: true },
+        ),
         ...transitions.map((t, i) =>
-          new TableRow({
-            children: [
-              cell(String(i + 1)),
-              cell(t.transition_name_zh),
-              cell(t.category),
-              cell(
-                isVbMappNt(t.score)
-                  ? "未测"
-                  : getVbMappSeverityLabel(t.score),
-              ),
+          wordTableRow(
+            [
+              String(i + 1),
+              t.transition_name_zh,
+              t.category,
+              isVbMappNt(t.score)
+                ? "未测"
+                : getVbMappSeverityLabel(t.score),
             ],
-          }),
+            ITEM_TABLE_WIDTHS,
+          ),
         ),
       ],
     }),

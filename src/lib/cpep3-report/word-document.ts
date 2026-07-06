@@ -2,16 +2,22 @@ import { formatDisabilityTypes, formatPlacementTypes } from "@/lib/types/student
 import { calculateStudentAge } from "@/lib/student-utils";
 import type { Cpep3ReportData } from "@/lib/cpep3-report/types";
 import {
+  INFO_LABEL_WIDTH_6,
+  INFO_VALUE_WIDTH_6,
+  INFO_VALUE_WIDTH_6_LAST,
+  wordLabelCell,
+  wordTableLayout,
+  wordTableRow,
+  wordValueCell,
+} from "@/lib/export/word-table-cells";
+import {
   AlignmentType,
-  BorderStyle,
   Document,
   Packer,
   Paragraph,
   Table,
-  TableCell,
   TableRow,
   TextRun,
-  WidthType,
 } from "docx";
 
 const FONT = "SimSun";
@@ -19,12 +25,8 @@ const SIZE_TITLE = 52;
 const SIZE_NORMAL = 24;
 const SIZE_SMALL = 21;
 
-const cellBorder = {
-  top: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
-  bottom: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
-  left: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
-  right: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
-};
+const DEV_TABLE_WIDTHS = [18, 10, 10, 10, 10, 12];
+const PAT_TABLE_WIDTHS = [22, 10, 10, 10, 10, 12];
 
 function p(
   text: string,
@@ -43,25 +45,6 @@ function p(
         font: FONT,
         size: opts?.size ?? SIZE_NORMAL,
         bold: opts?.bold,
-      }),
-    ],
-  });
-}
-
-function cell(text: string, opts?: { bold?: boolean; width?: number }) {
-  return new TableCell({
-    borders: cellBorder,
-    width: opts?.width ? { size: opts.width, type: WidthType.PERCENTAGE } : undefined,
-    children: [
-      new Paragraph({
-        children: [
-          new TextRun({
-            text,
-            font: FONT,
-            size: SIZE_SMALL,
-            bold: opts?.bold,
-          }),
-        ],
       }),
     ],
   });
@@ -103,30 +86,30 @@ export async function buildCpep3ReportWordBuffer(
   const part1 = [
     p("第一部分  学生基本信息", { bold: true }),
     new Table({
-      width: { size: 100, type: WidthType.PERCENTAGE },
+      ...wordTableLayout,
       rows: [
         new TableRow({
           children: [
-            cell("学生姓名", { bold: true, width: 15 }),
-            cell(student.name, { width: 18 }),
-            cell("学生性别", { bold: true, width: 15 }),
-            cell(student.gender ?? "", { width: 18 }),
-            cell("出生日期", { bold: true, width: 15 }),
-            cell(formatBirthDate(student.birth_date), { width: 19 }),
+            wordLabelCell("学生姓名", INFO_LABEL_WIDTH_6),
+            wordValueCell(student.name, INFO_VALUE_WIDTH_6),
+            wordLabelCell("学生性别", INFO_LABEL_WIDTH_6),
+            wordValueCell(student.gender ?? "", INFO_VALUE_WIDTH_6),
+            wordLabelCell("出生日期", INFO_LABEL_WIDTH_6),
+            wordValueCell(formatBirthDate(student.birth_date), INFO_VALUE_WIDTH_6_LAST),
           ],
         }),
         new TableRow({
           children: [
-            cell("实际年龄", { bold: true }),
-            cell(calculateStudentAge(student.birth_date), { width: 18 }),
-            cell("诊断结果", { bold: true }),
-            cell(formatDisabilityTypes(student.disability_types), { width: 35 }),
+            wordLabelCell("实际年龄"),
+            wordValueCell(calculateStudentAge(student.birth_date)),
+            wordLabelCell("诊断结果"),
+            wordValueCell(formatDisabilityTypes(student.disability_types)),
           ],
         }),
         new TableRow({
           children: [
-            cell("目前安置形式", { bold: true }),
-            cell(formatPlacementTypes(student.placement_types), { width: 85 }),
+            wordLabelCell("目前安置形式"),
+            wordValueCell(formatPlacementTypes(student.placement_types), 82, 3),
           ],
         }),
       ],
@@ -149,41 +132,37 @@ export async function buildCpep3ReportWordBuffer(
   ]);
 
   const devTable = new Table({
-    width: { size: 100, type: WidthType.PERCENTAGE },
+    ...wordTableLayout,
     rows: [
-      new TableRow({
-        children: [
-          cell("发展领域", { bold: true, width: 18 }),
-          cell("P", { bold: true, width: 10 }),
-          cell("E", { bold: true, width: 10 }),
-          cell("F", { bold: true, width: 10 }),
-          cell("NT", { bold: true, width: 10 }),
-          cell("通过率", { bold: true, width: 12 }),
-        ],
-      }),
-      ...devSummary.map(
-        (row) =>
-          new TableRow({
-            children: [
-              cell(row.domain_label_zh),
-              cell(String(row.passed_count)),
-              cell(String(row.emerging_count)),
-              cell(String(row.failed_count)),
-              cell(String(row.not_tested_count)),
-              cell(`${Math.round(Number(row.pass_rate ?? 0))}%`),
-            ],
-          }),
+      wordTableRow(
+        ["发展领域", "P", "E", "F", "NT", "通过率"],
+        DEV_TABLE_WIDTHS,
+        { header: true },
       ),
-      new TableRow({
-        children: [
-          cell("合计", { bold: true }),
-          cell(String(data.devTotalPassed), { bold: true }),
-          cell(String(data.devTotalEmerging), { bold: true }),
-          cell(String(data.devTotalFailed), { bold: true }),
-          cell(String(data.devTotalNotTested), { bold: true }),
-          cell(""),
+      ...devSummary.map((row) =>
+        wordTableRow(
+          [
+            row.domain_label_zh,
+            String(row.passed_count),
+            String(row.emerging_count),
+            String(row.failed_count),
+            String(row.not_tested_count),
+            `${Math.round(Number(row.pass_rate ?? 0))}%`,
+          ],
+          DEV_TABLE_WIDTHS,
+        ),
+      ),
+      wordTableRow(
+        [
+          "合计",
+          String(data.devTotalPassed),
+          String(data.devTotalEmerging),
+          String(data.devTotalFailed),
+          String(data.devTotalNotTested),
+          "",
         ],
-      }),
+        DEV_TABLE_WIDTHS,
+      ),
     ],
   });
 
@@ -200,18 +179,13 @@ export async function buildCpep3ReportWordBuffer(
   ]);
 
   const patTable = new Table({
-    width: { size: 100, type: WidthType.PERCENTAGE },
+    ...wordTableLayout,
     rows: [
-      new TableRow({
-        children: [
-          cell("病理/行为领域", { bold: true, width: 22 }),
-          cell("A", { bold: true, width: 10 }),
-          cell("M", { bold: true, width: 10 }),
-          cell("S", { bold: true, width: 10 }),
-          cell("NT", { bold: true, width: 10 }),
-          cell("异常比例", { bold: true, width: 12 }),
-        ],
-      }),
+      wordTableRow(
+        ["病理/行为领域", "A", "M", "S", "NT", "异常比例"],
+        PAT_TABLE_WIDTHS,
+        { header: true },
+      ),
       ...patSummary.map((row) => {
         const tested =
           Number(row.appropriate_count) +
@@ -220,16 +194,17 @@ export async function buildCpep3ReportWordBuffer(
         const abnormal = Number(row.mild_count) + Number(row.severe_count);
         const rate =
           tested > 0 ? `${Math.round((abnormal / tested) * 100)}%` : "—";
-        return new TableRow({
-          children: [
-            cell(row.domain_label_zh),
-            cell(String(row.appropriate_count)),
-            cell(String(row.mild_count)),
-            cell(String(row.severe_count)),
-            cell(String(row.not_tested_count)),
-            cell(rate),
+        return wordTableRow(
+          [
+            row.domain_label_zh,
+            String(row.appropriate_count),
+            String(row.mild_count),
+            String(row.severe_count),
+            String(row.not_tested_count),
+            rate,
           ],
-        });
+          PAT_TABLE_WIDTHS,
+        );
       }),
     ],
   });

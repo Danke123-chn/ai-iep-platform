@@ -3,13 +3,14 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useMemo, useState } from "react";
+import type { AssessmentIepPrefill } from "@/lib/assessments/assessment-iep-prefill";
+import { getIepToolTypeFromPrefill } from "@/lib/assessments/assessment-iep-prefill";
+import { createGenericIepDomains } from "@/lib/assessments/map-assessment-to-iep";
 import {
   getDefaultDates,
   getDefaultSchoolYear,
   getDefaultSemester,
 } from "@/lib/iep-utils";
-import type { AssessmentIepPrefill } from "@/lib/assessments/load-assessment-for-iep";
-import { createGenericIepDomains } from "@/lib/assessments/map-assessment-to-iep";
 import { formatPlacementTypes, type Student } from "@/lib/types/student";
 import {
   ASSESSMENT_LEVEL_LABELS,
@@ -160,8 +161,14 @@ export function IepAssessmentForm({
   assessmentPrefill,
 }: IepAssessmentFormProps) {
   const router = useRouter();
-  const defaultSemester = getDefaultSemester();
-  const defaultDates = getDefaultDates(defaultSemester);
+  const defaultSemester =
+    assessmentPrefill?.semester ?? getDefaultSemester();
+  const defaultDates = assessmentPrefill
+    ? {
+        startDate: assessmentPrefill.startDate,
+        endDate: assessmentPrefill.endDate,
+      }
+    : getDefaultDates(defaultSemester);
 
   const initialStudentId =
     (assessmentPrefill?.studentId &&
@@ -172,13 +179,17 @@ export function IepAssessmentForm({
       : (students[0]?.id ?? ""));
 
   const [studentId, setStudentId] = useState(initialStudentId);
-  const [schoolYear, setSchoolYear] = useState(getDefaultSchoolYear());
+  const [schoolYear, setSchoolYear] = useState(
+    assessmentPrefill?.schoolYear ?? getDefaultSchoolYear(),
+  );
   const [semester, setSemester] = useState<"上学期" | "下学期">(defaultSemester);
   const [startDate, setStartDate] = useState(defaultDates.startDate);
   const [endDate, setEndDate] = useState(defaultDates.endDate);
   const domainMode: IepDomainMode = assessmentPrefill?.domainMode ?? "generic";
   const assessmentSessionId = assessmentPrefill?.sessionId;
-  const toolType = assessmentPrefill?.toolType;
+  const toolType = assessmentPrefill
+    ? getIepToolTypeFromPrefill(assessmentPrefill)
+    : undefined;
   const [domains, setDomains] = useState<IepFormDomain[]>(
     () => assessmentPrefill?.domains ?? createEmptyDomains(),
   );
@@ -334,7 +345,10 @@ export function IepAssessmentForm({
 
         {/* 基本信息 */}
         <section className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
-          <h2 className="mb-4 text-sm font-medium text-zinc-300">基本信息</h2>
+          <h2 className="mb-1 text-sm font-medium text-zinc-300">计划周期</h2>
+          <p className="mb-4 text-xs text-zinc-500">
+            可根据实际情况修改学年、学期与 IEP 计划起止日期
+          </p>
 
           {selectedStudent && (
             <div className="mb-5 grid gap-3 rounded-lg border border-zinc-800 bg-zinc-950/50 p-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -392,7 +406,7 @@ export function IepAssessmentForm({
                 <option value="下学期">下学期</option>
               </select>
             </Field>
-            <Field label="起始日期">
+            <Field label="计划起始">
               <input
                 type="date"
                 value={startDate}
@@ -401,7 +415,7 @@ export function IepAssessmentForm({
                 className={inputClass}
               />
             </Field>
-            <Field label="结束日期">
+            <Field label="计划结束">
               <input
                 type="date"
                 value={endDate}

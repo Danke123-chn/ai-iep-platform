@@ -93,6 +93,32 @@ function countScoredItems(items: { score: string }[]) {
   };
 }
 
+/** 评分已写入库，但 summary 里仍保留「均为未测」类旧文案（常见于迁移后首次读库失败） */
+export function isStaleUntestedNarrative(
+  narrative: string | undefined,
+  hasScoredItems: boolean,
+): boolean {
+  if (!narrative?.trim() || !hasScoredItems) return false;
+  const text = narrative.trim();
+  return (
+    text.includes("均为未测") ||
+    text.includes("暂无有效障碍评分数据") ||
+    text.includes("暂无有效转衔评分数据") ||
+    text === BARRIER_ALL_UNTESTED_NARRATIVE ||
+    text === TRANSITION_ALL_UNTESTED_NARRATIVE
+  );
+}
+
+function resolveSectionNarrative(
+  stats: ReturnType<typeof countScoredItems>,
+  existing: string | undefined,
+  fallback: string,
+): string {
+  if (stats.allUntested) return fallback;
+  if (isStaleUntestedNarrative(existing, stats.scored > 0)) return fallback;
+  return existing ?? fallback;
+}
+
 export const BARRIER_ALL_UNTESTED_NARRATIVE =
   "障碍评估：本次评估中障碍评估部分均为未测，暂无有效障碍评分数据，无法对障碍分布作出解读。建议补测障碍评估后再更新报告。";
 
@@ -197,6 +223,11 @@ export function buildDefaultReportContent(params: {
     }
   }
 
+  const barrierStats = countScoredItems(params.barriers);
+  const transitionStats = countScoredItems(params.transitions);
+  const barrierFallback = defaultBarrierNarrative(params.barriers);
+  const transitionFallback = defaultTransitionNarrative(params.transitions);
+
   return {
     version: 1,
     assessorName: params.existing?.assessorName ?? "",
@@ -208,16 +239,16 @@ export function buildDefaultReportContent(params: {
       params.existing?.overallConclusion ??
       defaultOverallConclusion(dominantLevel, domainScores),
     domainNarratives,
-    barrierNarrative:
-      countScoredItems(params.barriers).allUntested
-        ? defaultBarrierNarrative(params.barriers)
-        : (params.existing?.barrierNarrative ??
-          defaultBarrierNarrative(params.barriers)),
-    transitionNarrative:
-      countScoredItems(params.transitions).allUntested
-        ? defaultTransitionNarrative(params.transitions)
-        : (params.existing?.transitionNarrative ??
-          defaultTransitionNarrative(params.transitions)),
+    barrierNarrative: resolveSectionNarrative(
+      barrierStats,
+      params.existing?.barrierNarrative,
+      barrierFallback,
+    ),
+    transitionNarrative: resolveSectionNarrative(
+      transitionStats,
+      params.existing?.transitionNarrative,
+      transitionFallback,
+    ),
     summaryRecommendations:
       params.existing?.summaryRecommendations ??
       defaultSummary(params.studentName, dominantLevel),

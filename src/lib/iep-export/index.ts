@@ -5,6 +5,15 @@ export {
 } from "@/lib/iep-export/filenames";
 export { loadIepExportData } from "@/lib/iep-export/load-data";
 export {
+  buildAssessmentTableRows,
+  buildBasicInfoRows,
+  buildGoalTableRows,
+  buildIepSubtitle,
+  buildIepTeachingSuggestions,
+  IEP_DOC_TITLE,
+  IEP_SIGNATURE_LINES,
+} from "@/lib/iep-export/document-content";
+export {
   buildIepWordBuffer,
   buildProgressReportWordBuffer,
 } from "@/lib/iep-export/word-document";

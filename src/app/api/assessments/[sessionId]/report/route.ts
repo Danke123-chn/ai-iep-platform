@@ -27,6 +27,8 @@ import type { AssessmentTool } from "@/lib/types/assessment_types";
 import { DeepSeekError } from "@/types/iep";
 import { NextResponse } from "next/server";
 
+export const runtime = "nodejs";
+
 type RouteParams = { params: Promise<{ sessionId: string }> };
 
 async function loadSessionTool(

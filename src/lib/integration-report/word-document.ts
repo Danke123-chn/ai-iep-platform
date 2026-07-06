@@ -5,16 +5,16 @@ import {
 } from "@/lib/integration-report/domain-rows";
 import type { IntegrationReportData } from "@/lib/integration-report/types";
 import {
+  wordTableLayout,
+  wordTableRow,
+} from "@/lib/export/word-table-cells";
+import {
   AlignmentType,
-  BorderStyle,
   Document,
   Packer,
   Paragraph,
   Table,
-  TableCell,
-  TableRow,
   TextRun,
-  WidthType,
 } from "docx";
 
 const FONT = "SimSun";
@@ -22,12 +22,7 @@ const SIZE_TITLE = 44;
 const SIZE_NORMAL = 24;
 const SIZE_SMALL = 21;
 
-const cellBorder = {
-  top: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
-  bottom: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
-  left: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
-  right: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
-};
+const DOMAIN_TABLE_WIDTHS = [22, 39, 39];
 
 function p(
   text: string,
@@ -48,31 +43,6 @@ function p(
         bold: opts?.bold,
       }),
     ],
-  });
-}
-
-function cell(
-  text: string,
-  opts?: { bold?: boolean; width?: number },
-) {
-  return new TableCell({
-    borders: cellBorder,
-    width: opts?.width
-      ? { size: opts.width, type: WidthType.PERCENTAGE }
-      : undefined,
-    children: text.split("\n").map(
-      (line) =>
-        new Paragraph({
-          children: [
-            new TextRun({
-              text: line,
-              font: FONT,
-              size: SIZE_SMALL,
-              bold: opts?.bold,
-            }),
-          ],
-        }),
-    ),
   });
 }
 
@@ -105,13 +75,11 @@ export async function buildIntegrationReportWordBuffer(
   ];
 
   const tableRows = [
-    new TableRow({
-      children: [
-        cell("领域（得分）", { bold: true, width: 22 }),
-        cell("现状分析", { bold: true, width: 39 }),
-        cell("建议", { bold: true, width: 39 }),
-      ],
-    }),
+    wordTableRow(
+      ["领域（得分）", "现状分析", "建议"],
+      DOMAIN_TABLE_WIDTHS,
+      { header: true },
+    ),
     ...domainRows.map((row) => {
       const analysis =
         row.domainKey === "behavior"
@@ -122,13 +90,10 @@ export async function buildIntegrationReportWordBuffer(
           ? content.behaviorRecommendation
           : (content.domainRecommendations[row.domainKey] ?? "");
 
-      return new TableRow({
-        children: [
-          cell(formatDomainScoreLabel(row)),
-          cell(analysis),
-          cell(recommendation),
-        ],
-      });
+      return wordTableRow(
+        [formatDomainScoreLabel(row), analysis, recommendation],
+        DOMAIN_TABLE_WIDTHS,
+      );
     }),
   ];
 
@@ -139,7 +104,7 @@ export async function buildIntegrationReportWordBuffer(
         children: [
           ...header,
           new Table({
-            width: { size: 100, type: WidthType.PERCENTAGE },
+            ...wordTableLayout,
             rows: tableRows,
           }),
           p(""),

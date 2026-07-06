@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 import { AssessmentFormActions } from "@/components/assessments/assessment-form-actions";
+import { AssessmentPlanPeriodFields } from "@/components/assessments/plan-period-fields";
 import { Cpep3ItemSection } from "@/components/assessments/c-pep3-item-section";
 import { KgIntegrationBehaviorSection } from "@/components/assessments/kg-integration-behavior-section";
 import { KgIntegrationStatsPanel } from "@/components/assessments/kg-integration-stats-panel";
@@ -316,6 +317,8 @@ export function IntegrationAssessmentForm({
           </div>
         </div>
       </div>
+
+      <AssessmentPlanPeriodFields session={session} className="mb-6" />
 
       <div className="grid gap-6 lg:grid-cols-[1fr_280px]">
         <div>

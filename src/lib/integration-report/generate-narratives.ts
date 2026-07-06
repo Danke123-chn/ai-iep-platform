@@ -1,4 +1,8 @@
 import { chatCompletion } from "@/lib/deepseek";
+import {
+  buildIntegrationReportSystemPrompt,
+  buildIntegrationReportUserPrompt,
+} from "@/lib/prompts/reports/integration";
 import { getIntegrationConfig } from "@/lib/assessments/integration-assessment-config";
 import { formatDomainScoreLabel } from "@/lib/integration-report/domain-rows";
 import type { IntegrationReportData } from "@/lib/integration-report/types";
@@ -52,30 +56,20 @@ export async function generateIntegrationReportNarratives(
 
   const stageLabel =
     data.toolType === "kg_integration" ? "幼儿园融合（入园）" : "小学融合（入校）";
+  const contextHint =
+    data.toolType === "kg_integration"
+      ? "集体生活、区域游戏、户外、幼小衔接"
+      : "入校常规、课堂参与、课间户外、学业任务、同伴社交";
 
-  const systemPrompt = `你是一位资深的中国融合教育评估师，负责撰写「${stageLabel}」融合能力评估报告文字解读。
-
-要求：
-- 格式参照标准融合能力评估报告：每个领域含「优势」「弱势」的现状分析，以及融合教育建议
-- 使用专业、客观、温暖的中文，面向家长与班级教师可读
-- 须结合 0/1/2 分及融合能力率数据；若某领域全部为未测，须明确说明，不得编造
-- 问题行为领域须结合行为记录撰写；若无记录则说明未观察到明显问题行为
-- 建议须体现融合教育情境（${data.toolType === "kg_integration" ? "集体生活、区域游戏、户外、幼小衔接" : "入校常规、课堂参与、课间户外、学业任务、同伴社交"}）
-- 输出严格 JSON，不要 markdown 代码块
-
-JSON 结构：
-{
-  "domainAnalysis": { "daily_life": "优势：...\\n弱势：...", ... },
-  "domainRecommendations": { "daily_life": "建议...", ... },
-  "behaviorAnalysis": "优势：...\\n弱势：...",
-  "behaviorRecommendation": "建议..."
-}
-
-领域 key：${domainKeys.join(", ")}`;
-
-  const userPrompt = `${buildAssessmentPayload(data)}
-
-请为上述 ${config.title} 数据生成各领域现状分析（含优势、弱势）与融合教育建议。`;
+  const systemPrompt = buildIntegrationReportSystemPrompt({
+    stageLabel,
+    domainKeys,
+    contextHint,
+  });
+  const userPrompt = buildIntegrationReportUserPrompt(
+    buildAssessmentPayload(data),
+    config.title,
+  );
 
   const response = await chatCompletion(
     [

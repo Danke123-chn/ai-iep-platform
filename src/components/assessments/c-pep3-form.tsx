@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { AssessmentFormActions } from "@/components/assessments/assessment-form-actions";
+import { AssessmentPlanPeriodFields } from "@/components/assessments/plan-period-fields";
 import { Cpep3ItemSection } from "@/components/assessments/c-pep3-item-section";
 import { Cpep3StatsPanel } from "@/components/assessments/c-pep3-stats-panel";
 import type { Cpep3AssessmentData } from "@/lib/assessments/load-c-pep3-data";
@@ -299,6 +300,8 @@ export function Cpep3Form({
           </div>
         </div>
       </div>
+
+      <AssessmentPlanPeriodFields session={session} className="mb-6" />
 
       <div className="grid gap-6 lg:grid-cols-[1fr_280px]">
         <div>

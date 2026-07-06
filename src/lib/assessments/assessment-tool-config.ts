@@ -5,6 +5,7 @@ export const ASSESSMENT_TOOL_ROUTES: Record<AssessmentTool, string> = {
   c_pep3: "c-pep3",
   kg_integration: "kg-integration",
   elem_integration: "elem-integration",
+  uploaded_report: "upload-report",
 };
 
 export const ASSESSMENT_TOOL_COLORS: Record<AssessmentTool, string> = {
@@ -12,6 +13,7 @@ export const ASSESSMENT_TOOL_COLORS: Record<AssessmentTool, string> = {
   c_pep3: "#0F6E56",
   kg_integration: "#D97706",
   elem_integration: "#2563EB",
+  uploaded_report: "#7C3AED",
 };
 
 export function getAssessmentFormPath(
@@ -32,6 +34,8 @@ export function getToolLabel(toolType: AssessmentTool): string {
       return "幼儿园融合能力评估";
     case "elem_integration":
       return "小学融合能力评估";
+    case "uploaded_report":
+      return "上传评估报告";
     default:
       return toolType;
   }

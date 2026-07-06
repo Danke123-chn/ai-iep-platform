@@ -1,4 +1,4 @@
-export const GENDER_OPTIONS = ["男", "女", "其他"] as const;
+export const GENDER_OPTIONS = ["男", "女"] as const;
 export type Gender = (typeof GENDER_OPTIONS)[number];
 
 export const DISABILITY_TYPES = [

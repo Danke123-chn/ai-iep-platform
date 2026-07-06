@@ -7,7 +7,6 @@ export { getIepExportFilename, getProgressReportFilename } from "@/lib/iep-expor
 
 export async function loadIepExportData(
   iepId: string,
-  userId: string,
 ): Promise<IepExportData | null> {
   const supabase = await createClient();
 
@@ -15,7 +14,6 @@ export async function loadIepExportData(
     .from("ieps")
     .select("*")
     .eq("id", iepId)
-    .eq("user_id", userId)
     .single();
 
   if (iepError || !iep) return null;

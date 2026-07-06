@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { AssessmentFormActions } from "@/components/assessments/assessment-form-actions";
+import { AssessmentPlanPeriodFields } from "@/components/assessments/plan-period-fields";
 import { ScoreButtonRow } from "@/components/assessments/score-button-row";
 import { VbMappMilestoneSection } from "@/components/assessments/vb-mapp-milestone-section";
 import { VbMappStatsPanel } from "@/components/assessments/vb-mapp-stats-panel";
@@ -298,6 +299,8 @@ export function VbMappForm({
           </div>
         </div>
       </div>
+
+      <AssessmentPlanPeriodFields session={session} className="mb-6" />
 
       <div className="grid gap-6 lg:grid-cols-[1fr_280px]">
         <div>

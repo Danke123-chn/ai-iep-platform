@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { UploadedReportResultView } from "@/components/assessments/uploaded-report-result-view";
 import { Cpep3ResultView } from "@/components/assessments/c-pep3-result-view";
 import { KgIntegrationResultView } from "@/components/assessments/kg-integration-result-view";
 import { VbMappResultView } from "@/components/assessments/vb-mapp-result-view";
@@ -12,6 +13,7 @@ import {
   loadAssessmentResult,
   type Cpep3ResultData,
   type IntegrationResultData,
+  type UploadedReportResultData,
   type VbMappResultData,
 } from "@/lib/assessments/load-assessment-result";
 import type { AssessmentTool } from "@/lib/types/assessment_types";
@@ -71,6 +73,11 @@ export default async function AssessmentSessionPage({
         </p>
       </div>
 
+      {session.tool_type === "uploaded_report" && (
+        <UploadedReportResultView
+          interpretation={(result as UploadedReportResultData).interpretation}
+        />
+      )}
       {session.tool_type === "vb_mapp" && (
         <VbMappResultView data={result as VbMappResultData} />
       )}
@@ -89,7 +96,7 @@ export default async function AssessmentSessionPage({
           >
             返回学生列表
           </Link>
-          {session.status === "in_progress" && (
+          {session.status === "in_progress" && session.tool_type !== "uploaded_report" && (
             <Link
               href={formHref}
               className="rounded-lg border border-zinc-700 px-4 py-2.5 text-center text-sm text-zinc-300 hover:bg-zinc-800"
@@ -97,6 +104,15 @@ export default async function AssessmentSessionPage({
               继续评估
             </Link>
           )}
+          {session.status === "in_progress" &&
+            session.tool_type === "uploaded_report" && (
+              <Link
+                href={formHref}
+                className="rounded-lg border border-zinc-700 px-4 py-2.5 text-center text-sm text-zinc-300 hover:bg-zinc-800"
+              >
+                继续上传报告
+              </Link>
+            )}
         </div>
         <div className="flex flex-col gap-3 sm:flex-row">
           {(session.tool_type === "vb_mapp" ||

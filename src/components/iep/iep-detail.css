@@ -14,103 +14,323 @@
     padding: 0 !important;
   }
 
-  .iep-document * {
-    border-color: #d4d4d8 !important;
-  }
-
-  .iep-document .text-zinc-100,
-  .iep-document .text-zinc-200,
-  .iep-document .text-zinc-300 {
-    color: #18181b !important;
-  }
-
-  .iep-document .text-zinc-400,
-  .iep-document .text-zinc-500 {
-    color: #52525b !important;
-  }
-
-  .iep-document .bg-zinc-900,
-  .iep-document .bg-zinc-950,
-  .iep-document .bg-zinc-950\/50 {
-    background: white !important;
-  }
-
-  .iep-document section,
-  .iep-document article {
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
-
   .iep-document .print-expand {
     display: block !important;
   }
 
-  .pdf-export-header {
+  .pdf-export-header,
+  .pdf-goal-header {
     display: block !important;
   }
 }
 
-/* PDF 导出模式：白底黑字，隐藏交互元素 */
 body.pdf-export-active .no-print {
   display: none !important;
 }
 
 body.pdf-export-active {
-  background: white !important;
+  background: #ffffff !important;
 }
 
-.pdf-export-mode {
-  background: white !important;
-  color: black !important;
-  padding: 16px !important;
-}
-
-.pdf-export-mode * {
-  border-color: #d4d4d8 !important;
-}
-
-.pdf-export-mode .text-zinc-100,
-.pdf-export-mode .text-zinc-200,
-.pdf-export-mode .text-zinc-300,
-.pdf-export-mode .text-zinc-400 {
+/* PDF 导出：纯文字版式（不影响网页显示） */
+.pdf-export-mode.iep-document {
+  --iep-indent-0: 0;
+  --iep-indent-1: 1.25em;
+  --iep-indent-2: 2.5em;
+  --iep-indent-3: 3.75em;
+  background: #ffffff !important;
   color: #18181b !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  font-family: "Microsoft YaHei", "PingFang SC", SimHei, SimSun, sans-serif !important;
+  font-size: 14px !important;
+  line-height: 1.75 !important;
 }
 
-.pdf-export-mode .text-zinc-500,
-.pdf-export-mode .text-zinc-600 {
-  color: #52525b !important;
-}
-
-.pdf-export-mode .text-emerald-300 {
-  color: #047857 !important;
-}
-
-.pdf-export-mode .bg-zinc-900,
-.pdf-export-mode .bg-zinc-950,
-.pdf-export-mode .bg-zinc-950\/50,
-.pdf-export-mode .bg-gradient-to-r {
-  background: white !important;
-}
-
-.pdf-export-mode .rounded-xl,
-.pdf-export-mode .rounded-lg {
-  border-radius: 4px !important;
+.pdf-export-mode.iep-document *,
+.pdf-export-mode.iep-document *::before,
+.pdf-export-mode.iep-document *::after {
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
 }
 
 .pdf-export-mode .pdf-export-header {
   display: block !important;
-  margin-bottom: 24px;
+  margin-bottom: 20px !important;
+  padding: 0 !important;
+  border: none !important;
+  text-align: center !important;
 }
 
-.pdf-export-mode section,
-.pdf-export-mode article {
-  break-inside: avoid;
+.pdf-export-mode .pdf-goal-header,
+.pdf-export-mode .pdf-export-expanded,
+.pdf-export-mode .hidden.pdf-export\:block,
+.pdf-export-mode .hidden.print\:block,
+body.pdf-export-active .iep-document article > .border-t {
+  display: block !important;
 }
 
 .pdf-export-mode .print-expand {
   display: block !important;
 }
 
-.pdf-export-mode .hidden.print\:block {
+.pdf-export-mode h1 {
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  color: #18181b !important;
+  margin: 0 0 8px !important;
+  padding-left: var(--iep-indent-0) !important;
+}
+
+.pdf-export-mode h2 {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: #18181b !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  border: none !important;
+  padding: 0 !important;
+  padding-left: var(--iep-indent-0) !important;
+  margin: 28px 0 12px !important;
+}
+
+.pdf-export-mode h3 {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: #18181b !important;
+  margin: 16px 0 6px !important;
+  padding-left: var(--iep-indent-1) !important;
+}
+
+.pdf-export-mode h4 {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: #18181b !important;
+  margin: 12px 0 4px !important;
+  padding-left: var(--iep-indent-2) !important;
+}
+
+.pdf-export-mode p,
+.pdf-export-mode li,
+.pdf-export-mode span {
+  font-size: 14px !important;
+  line-height: 1.75 !important;
+}
+
+/* 基本信息：三列纯文字 */
+.pdf-export-mode .iep-field-list {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 10px 24px !important;
+  margin-bottom: 4px !important;
+  padding-left: var(--iep-indent-1) !important;
+}
+
+.pdf-export-mode .iep-info-field {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+.pdf-export-mode .iep-info-field[class*="col-span"] {
+  grid-column: 1 / -1 !important;
+}
+
+.pdf-export-mode .iep-info-field h3 {
   display: block !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #52525b !important;
+  margin: 0 0 2px !important;
+  padding-left: 0 !important;
+}
+
+.pdf-export-mode .iep-info-field p {
+  font-size: 14px !important;
+  color: #18181b !important;
+  margin: 0 !important;
+}
+
+/* 区块容器去卡片化 */
+.pdf-export-mode section,
+.pdf-export-mode article {
+  padding: 0 !important;
+  margin: 0 0 24px !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+.pdf-export-mode section:last-child,
+.pdf-export-mode article:last-child {
+  margin-bottom: 0 !important;
+}
+
+.pdf-export-mode .pdf-goal-header,
+.pdf-export-mode article > .border-t {
+  padding: 0 !important;
+  border: none !important;
+}
+
+/* 领域评估：纯文字段落 */
+.pdf-export-mode .iep-domain-list {
+  display: block !important;
+  padding-left: var(--iep-indent-1) !important;
+}
+
+.pdf-export-mode .iep-domain-card {
+  margin: 0 0 16px !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+.pdf-export-mode .iep-domain-card .flex {
+  display: block !important;
+}
+
+.pdf-export-mode .iep-domain-card h3 {
+  display: inline !important;
+  margin: 0 !important;
+  padding-left: 0 !important;
+}
+
+.pdf-export-mode .iep-domain-level {
+  display: inline !important;
+  padding: 0 !important;
+  margin-left: 4px !important;
+  font-weight: normal !important;
+  color: #52525b !important;
+}
+
+.pdf-export-mode .iep-domain-level::before {
+  content: "（" !important;
+}
+
+.pdf-export-mode .iep-domain-level::after {
+  content: "）" !important;
+}
+
+.pdf-export-mode .iep-level-bar {
+  display: none !important;
+}
+
+.pdf-export-mode .iep-domain-card > p.text-xs {
+  margin: 4px 0 6px !important;
+  color: #52525b !important;
+  padding-left: var(--iep-indent-1) !important;
+}
+
+.pdf-export-mode .iep-domain-card > p:not(.text-xs) {
+  padding-left: var(--iep-indent-1) !important;
+}
+
+/* 目标：纯文字 + 层级缩进 */
+.pdf-export-mode article .pdf-goal-header h3 {
+  padding-left: var(--iep-indent-1) !important;
+}
+
+.pdf-export-mode article .pdf-goal-header p {
+  padding-left: var(--iep-indent-2) !important;
+  margin: 0 0 8px !important;
+}
+
+.pdf-export-mode article .iep-goal-long p,
+.pdf-export-mode article .iep-stg-block > p,
+.pdf-export-mode article .iep-stg-block > div.iep-stg-meta,
+.pdf-export-mode article .iep-stg-block > p[data-pdf-text-block] {
+  padding-left: var(--iep-indent-3) !important;
+}
+
+.pdf-export-mode article .iep-stg-block > div.flex {
+  padding-left: var(--iep-indent-3) !important;
+}
+
+.pdf-export-mode .iep-goal-long,
+.pdf-export-mode .iep-stg-block {
+  margin: 0 0 14px !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+.pdf-export-mode .iep-stg-block > div.flex {
+  display: block !important;
+  margin-top: 6px !important;
+}
+
+.pdf-export-mode .iep-stg-block > div.flex span {
+  display: inline !important;
+  margin-right: 12px !important;
+}
+
+.pdf-export-mode .iep-stg-block .iep-stg-progress {
+  display: inline !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  color: #52525b !important;
+  font-size: 13px !important;
+}
+
+.pdf-export-mode .iep-stg-block .iep-stg-progress::before {
+  content: "进度：" !important;
+}
+
+/* 教学建议 */
+.pdf-export-mode .iep-suggestion-list {
+  padding: 0 !important;
+  margin: 0 !important;
+  list-style: disc !important;
+  padding-left: calc(var(--iep-indent-1) + 1.25em) !important;
+}
+
+.pdf-export-mode .iep-suggestion-list li {
+  margin-bottom: 6px !important;
+  padding: 0 !important;
+  display: list-item !important;
+}
+
+.pdf-export-mode .iep-suggestion-list li > span:first-child {
+  display: none !important;
+}
+
+/* 签名：纯文字 */
+.pdf-export-mode .iep-signature-list {
+  display: block !important;
+  padding-left: var(--iep-indent-1) !important;
+}
+
+.pdf-export-mode .iep-signature-block {
+  margin-bottom: 20px !important;
+}
+
+.pdf-export-mode .iep-signature-block h3 {
+  padding-left: 0 !important;
+}
+
+.pdf-export-mode .iep-signature-block .border-b {
+  display: none !important;
+}
+
+.pdf-export-mode .text-zinc-100,
+.pdf-export-mode .text-zinc-200,
+.pdf-export-mode .text-zinc-300,
+.pdf-export-mode .text-zinc-400,
+.pdf-export-mode .text-zinc-500,
+.pdf-export-mode .text-zinc-600,
+.pdf-export-mode .text-zinc-700,
+.pdf-export-mode .text-zinc-800,
+.pdf-export-mode .text-zinc-900,
+.pdf-export-mode .text-black,
+.pdf-export-mode .text-emerald-300 {
+  color: #18181b !important;
+}
+
+.pdf-export-mode .iep-info-field h3,
+.pdf-export-mode .iep-domain-card > p.text-xs,
+.pdf-export-mode .iep-stg-block .text-xs,
+.pdf-export-mode .iep-stg-block .iep-stg-progress {
+  color: #52525b !important;
 }

@@ -28,7 +28,7 @@ export function VbMappReportPreview({
   const [content, setContent] = useState(initialData.reportContent);
   const [generating, setGenerating] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [exporting, setExporting] = useState<"word" | "pdf" | null>(null);
+  const [exporting, setExporting] = useState<"word" | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
@@ -101,29 +101,6 @@ export function VbMappReportPreview({
     URL.revokeObjectURL(url);
   }
 
-  async function exportPdf() {
-    if (!printRef.current) return;
-    setExporting("pdf");
-    setError(null);
-    await saveContent();
-    try {
-      const html2pdf = (await import("html2pdf.js")).default;
-      const filename = `VB-MAPP评估报告-${student.name}-${session.session_date.slice(0, 10)}.pdf`;
-      await html2pdf()
-        .set({
-          margin: [15, 12, 15, 12],
-          filename,
-          html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff" },
-          jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-        })
-        .from(printRef.current)
-        .save();
-    } catch {
-      setError("PDF 导出失败");
-    }
-    setExporting(null);
-  }
-
   return (
     <div>
       <div className="mb-6 flex flex-wrap items-center gap-3">
@@ -150,14 +127,6 @@ export function VbMappReportPreview({
           className="rounded-lg border border-zinc-600 px-4 py-2 text-sm text-zinc-200 hover:bg-zinc-800 disabled:opacity-50"
         >
           {exporting === "word" ? "导出中…" : "导出 Word"}
-        </button>
-        <button
-          type="button"
-          onClick={exportPdf}
-          disabled={exporting !== null}
-          className="rounded-lg border border-zinc-600 px-4 py-2 text-sm text-zinc-200 hover:bg-zinc-800 disabled:opacity-50"
-        >
-          {exporting === "pdf" ? "导出中…" : "导出 PDF"}
         </button>
         <Link
           href={`/dashboard/iep/new?studentId=${studentId}&sessionId=${sessionId}`}
@@ -202,8 +171,12 @@ export function VbMappReportPreview({
           <p>评估日期：{formatDateZh(session.session_date)}</p>
         </div>
 
-        <h2 className="mt-10 text-base font-bold">第一部分  学生基本信息</h2>
-        <table className="mt-3 w-full border-collapse border border-zinc-400 text-xs">
+        <h2 className="mt-10 text-base font-bold" data-pdf-keep-together>
+          第一部分  学生基本信息
+        </h2>
+        <table
+          className="mt-3 w-full border-collapse border border-zinc-400 text-xs"
+        >
           <tbody>
             <tr>
               <td className="border border-zinc-400 bg-zinc-50 px-2 py-1.5 font-medium">学生姓名</td>
@@ -226,7 +199,9 @@ export function VbMappReportPreview({
           </tbody>
         </table>
 
-        <h2 className="mt-10 text-base font-bold">第二部分  学生现阶段能力</h2>
+        <h2 className="mt-10 text-base font-bold" data-pdf-keep-together>
+          第二部分  学生现阶段能力
+        </h2>
         <textarea
           rows={6}
           value={content.observationNarrative}
@@ -244,7 +219,9 @@ export function VbMappReportPreview({
           className="mt-3 w-full rounded border border-zinc-300 px-3 py-2 text-sm leading-relaxed outline-none focus:border-[#534AB7]"
         />
 
-        <h3 className="mt-8 text-sm font-bold">一、 VB-MAPP 里程碑计分总表</h3>
+        <h3 className="mt-8 text-sm font-bold" data-pdf-keep-together>
+          一、 VB-MAPP 里程碑计分总表
+        </h3>
         <div className="mt-4 space-y-4">
           {domainScores.map((row) => (
             <div key={row.domain}>
@@ -267,7 +244,9 @@ export function VbMappReportPreview({
           ))}
         </div>
 
-        <table className="mt-6 w-full border-collapse border border-zinc-400 text-xs">
+        <table
+          className="mt-6 w-full border-collapse border border-zinc-400 text-xs"
+        >
           <thead>
             <tr className="bg-zinc-50">
               <th className="border border-zinc-400 px-2 py-1.5">领域</th>
@@ -300,8 +279,10 @@ export function VbMappReportPreview({
           </tbody>
         </table>
 
-        <h3 className="mt-10 text-sm font-bold">二、  VB-MAPP 障碍积分表</h3>
-        <p className="mt-2 text-sm font-medium">障碍评估：</p>
+        <div data-pdf-keep-together>
+          <h3 className="mt-10 text-sm font-bold">二、  VB-MAPP 障碍积分表</h3>
+          <p className="mt-2 text-sm font-medium">障碍评估：</p>
+        </div>
         <textarea
           rows={3}
           value={content.barrierNarrative}
@@ -311,8 +292,10 @@ export function VbMappReportPreview({
           className="mt-2 w-full rounded border border-zinc-300 px-3 py-2 text-sm leading-relaxed outline-none focus:border-[#534AB7]"
         />
 
-        <h3 className="mt-10 text-sm font-bold">三、 VB-MAPP 转衔积分表</h3>
-        <p className="mt-2 text-sm font-medium">转衔评估：</p>
+        <div data-pdf-keep-together>
+          <h3 className="mt-10 text-sm font-bold">三、 VB-MAPP 转衔积分表</h3>
+          <p className="mt-2 text-sm font-medium">转衔评估：</p>
+        </div>
         <textarea
           rows={3}
           value={content.transitionNarrative}
@@ -322,7 +305,9 @@ export function VbMappReportPreview({
           className="mt-2 w-full rounded border border-zinc-300 px-3 py-2 text-sm leading-relaxed outline-none focus:border-[#534AB7]"
         />
 
-        <h2 className="mt-10 text-base font-bold">第五部分  总结与建议</h2>
+        <h2 className="mt-10 text-base font-bold" data-pdf-keep-together>
+          第五部分  总结与建议
+        </h2>
         <textarea
           rows={6}
           value={content.summaryRecommendations}
@@ -335,14 +320,16 @@ export function VbMappReportPreview({
           className="mt-3 w-full rounded border border-zinc-300 px-3 py-2 text-sm leading-relaxed outline-none focus:border-[#534AB7]"
         />
 
-        <p className="mt-8 text-xs leading-relaxed text-zinc-600">
+        <div className="mt-8 space-y-3">
+        <p className="text-xs leading-relaxed text-zinc-600">
           备注：此评估结果是针对评估时学生所展现出的能力为依据所制定的评估报告。如您对评估报告有任何疑问，请联系评估治疗师进行讲解。如您对评估结果没有意见，请签字，谢谢。
         </p>
-        <p className="mt-6 text-sm">评估签字：________________</p>
-        <p className="mt-3 text-sm">家长签字：________________</p>
-        <p className="mt-4 text-xs text-zinc-500">
+        <p className="text-sm">评估签字：________________</p>
+        <p className="text-sm">家长签字：________________</p>
+        <p className="text-xs text-zinc-500">
           能力水平参考：{levelLabelZh(data.dominantLevel)}
         </p>
+        </div>
       </div>
     </div>
   );

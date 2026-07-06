@@ -1,14 +1,13 @@
 import type { IepExportData, ProgressReportContent } from "@/lib/iep-export/types";
-import { buildTeachingSuggestions } from "@/lib/iep-export/teaching-suggestions";
-import { getShortTermGoalProgress } from "@/lib/iep-progress";
-import { getIepStatus } from "@/lib/iep-utils";
-import { formatDisabilityTypes, formatPlacementTypes } from "@/lib/types/student";
 import {
-  ASSESSMENT_LEVEL_LABELS,
-  GOAL_PROGRESS_LABELS,
-  IEP_STATUS_LABELS,
-  type IepGenerateRequest,
-} from "@/types/iep";
+  buildAssessmentTableRows,
+  buildBasicInfoRows,
+  buildGoalTableRows,
+  buildIepSubtitle,
+  buildIepTeachingSuggestions,
+  IEP_DOC_TITLE,
+  IEP_SIGNATURE_LINES,
+} from "@/lib/iep-export/document-content";
 import {
   AlignmentType,
   BorderStyle,
@@ -85,37 +84,11 @@ function heading1(text: string) {
   });
 }
 
-function calculateAge(birthDate: string | null): string {
-  if (!birthDate) return "—";
-  const birth = new Date(birthDate);
-  if (Number.isNaN(birth.getTime())) return "—";
-  const today = new Date();
-  let age = today.getFullYear() - birth.getFullYear();
-  const m = today.getMonth() - birth.getMonth();
-  if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age -= 1;
-  return `${age}岁`;
-}
-
 export async function buildIepWordBuffer(data: IepExportData): Promise<Buffer> {
-  const { iep, student, goals } = data;
-  const assessment = iep.assessment_data as IepGenerateRequest;
-  const status = getIepStatus(iep);
-  const teachingSuggestions = buildTeachingSuggestions(data);
-
-  const basicInfoRows = [
-    ["姓名", student?.name ?? "—", "性别", student?.gender ?? "—"],
-    ["年龄", calculateAge(student?.birth_date ?? null), "学校", student?.school ?? "—"],
-    ["年级", student?.grade ?? "—", "班级", student?.class_name ?? "—"],
-    [
-      "障碍类型",
-      student ? formatDisabilityTypes(student.disability_types) : "—",
-      "安置方式",
-      student ? formatPlacementTypes(student.placement_types) : "—",
-    ],
-    ["学年", iep.school_year, "学期", iep.semester],
-    ["计划起始", iep.start_date, "计划结束", iep.end_date],
-    ["IEP 状态", IEP_STATUS_LABELS[status], "生成日期", iep.generated_at?.slice(0, 10) ?? "—"],
-  ];
+  const basicInfoRows = buildBasicInfoRows(data);
+  const assessmentRows = buildAssessmentTableRows(data);
+  const goalRows = buildGoalTableRows(data);
+  const teachingSuggestions = buildIepTeachingSuggestions(data);
 
   const basicTable = new Table({
     width: { size: 100, type: WidthType.PERCENTAGE },
@@ -129,89 +102,58 @@ export async function buildIepWordBuffer(data: IepExportData): Promise<Buffer> {
     ),
   });
 
-  const assessmentRows = [
-    new TableRow({
-      children: [
-        tableCell("评估领域", { bold: true, width: 18 }),
-        tableCell("等级", { bold: true, width: 10 }),
-        tableCell("等级说明", { bold: true, width: 22 }),
-        tableCell("具体描述", { bold: true, width: 50 }),
-      ],
-    }),
-    ...(assessment.domains ?? []).map(
-      (domain) =>
-        new TableRow({
-          children: [
-            tableCell(domain.name),
-            tableCell(domain.level ? `${domain.level}级` : "—"),
-            tableCell(
-              domain.level ? ASSESSMENT_LEVEL_LABELS[domain.level] : "—",
-            ),
-            tableCell(domain.description || "—"),
-          ],
-        }),
-    ),
-  ];
-
   const assessmentTable = new Table({
     width: { size: 100, type: WidthType.PERCENTAGE },
-    rows: assessmentRows,
+    rows: [
+      new TableRow({
+        children: [
+          tableCell("评估领域", { bold: true, width: 18 }),
+          tableCell("等级", { bold: true, width: 10 }),
+          tableCell("等级说明", { bold: true, width: 22 }),
+          tableCell("具体描述", { bold: true, width: 50 }),
+        ],
+      }),
+      ...assessmentRows.map(
+        (row) =>
+          new TableRow({
+            children: [
+              tableCell(row.domain),
+              tableCell(row.level),
+              tableCell(row.levelLabel),
+              tableCell(row.description),
+            ],
+          }),
+      ),
+    ],
   });
-
-  const goalRows = [
-    new TableRow({
-      children: [
-        tableCell("领域", { bold: true, width: 12 }),
-        tableCell("长期目标", { bold: true, width: 18 }),
-        tableCell("短期目标", { bold: true, width: 22 }),
-        tableCell("评量方式", { bold: true, width: 14 }),
-        tableCell("起止日期", { bold: true, width: 16 }),
-        tableCell("进度", { bold: true, width: 8 }),
-      ],
-    }),
-  ];
-
-  for (const goal of goals) {
-    if (goal.short_term_goals.length === 0) {
-      goalRows.push(
-        new TableRow({
-          children: [
-            tableCell(goal.domain_name),
-            tableCell(goal.long_term_goal),
-            tableCell("—"),
-            tableCell("—"),
-            tableCell("—"),
-            tableCell("—"),
-          ],
-        }),
-      );
-      continue;
-    }
-
-    goal.short_term_goals.forEach((stg, index) => {
-      const progress = getShortTermGoalProgress(stg);
-      const progressLabel = progress
-        ? `${progress}(${GOAL_PROGRESS_LABELS[progress]})`
-        : "未更新";
-
-      goalRows.push(
-        new TableRow({
-          children: [
-            tableCell(index === 0 ? goal.domain_name : ""),
-            tableCell(index === 0 ? goal.long_term_goal : ""),
-            tableCell(stg.content),
-            tableCell(stg.assessmentMethod),
-            tableCell(`${stg.startDate} ~ ${stg.endDate}`),
-            tableCell(progressLabel),
-          ],
-        }),
-      );
-    });
-  }
 
   const goalsTable = new Table({
     width: { size: 100, type: WidthType.PERCENTAGE },
-    rows: goalRows,
+    rows: [
+      new TableRow({
+        children: [
+          tableCell("领域", { bold: true, width: 12 }),
+          tableCell("长期目标", { bold: true, width: 18 }),
+          tableCell("短期目标", { bold: true, width: 22 }),
+          tableCell("评量方式", { bold: true, width: 14 }),
+          tableCell("起止日期", { bold: true, width: 16 }),
+          tableCell("进度", { bold: true, width: 8 }),
+        ],
+      }),
+      ...goalRows.map(
+        (row) =>
+          new TableRow({
+            children: [
+              tableCell(row.domain),
+              tableCell(row.longTermGoal),
+              tableCell(row.shortTermGoal),
+              tableCell(row.assessmentMethod),
+              tableCell(row.dateRange),
+              tableCell(row.progress),
+            ],
+          }),
+      ),
+    ],
   });
 
   const children = [
@@ -220,17 +162,17 @@ export async function buildIepWordBuffer(data: IepExportData): Promise<Buffer> {
       spacing: { after: 200 },
       children: [
         new TextRun({
-          text: "个别化教育计划（IEP）",
+          text: IEP_DOC_TITLE,
           font: FONT,
           size: SIZE_ER,
           bold: true,
         }),
       ],
     }),
-    textParagraph(
-      `${student?.name ?? "未知学生"}    ${iep.school_year}    ${iep.semester}`,
-      { alignment: AlignmentType.CENTER, size: SIZE_NORMAL },
-    ),
+    textParagraph(buildIepSubtitle(data), {
+      alignment: AlignmentType.CENTER,
+      size: SIZE_NORMAL,
+    }),
     textParagraph(""),
     heading1("一、基本信息"),
     basicTable,
@@ -245,11 +187,7 @@ export async function buildIepWordBuffer(data: IepExportData): Promise<Buffer> {
     ...teachingSuggestions.map((item) => textParagraph(`• ${item}`)),
     textParagraph(""),
     heading1("五、签名区"),
-    textParagraph("班主任签名：________________________    日期：________________"),
-    textParagraph(""),
-    textParagraph("家长签名：________________________    日期：________________"),
-    textParagraph(""),
-    textParagraph("学校盖章：________________________    日期：________________"),
+    ...IEP_SIGNATURE_LINES.map((line) => textParagraph(line)),
   ];
 
   const doc = new Document({

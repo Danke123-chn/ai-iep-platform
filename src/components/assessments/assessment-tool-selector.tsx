@@ -123,11 +123,26 @@ export function AssessmentToolSelector({
           {error}
           {error.includes("assessment_sessions") && (
             <p className="mt-2 text-xs text-red-300/80">
-              请先在 Supabase SQL Editor 执行{" "}
-              <code className="rounded bg-red-950/50 px-1">
-                supabase/migrations/009_assessment_sessions.sql
-              </code>{" "}
-              中的 SQL 创建评估表。
+              {error.includes("plan_start_date") ||
+              error.includes("plan_end_date") ||
+              error.includes("school_year") ||
+              error.includes("semester") ? (
+                <>
+                  请在 CloudBase SQL Editor 执行{" "}
+                  <code className="rounded bg-red-950/50 px-1">
+                    cloudbase/migrations/010_assessment_plan_period.sql
+                  </code>
+                  。未执行前计划周期会暂存到 notes 字段。
+                </>
+              ) : (
+                <>
+                  请先在 CloudBase SQL Editor 执行{" "}
+                  <code className="rounded bg-red-950/50 px-1">
+                    cloudbase/migrations/009_assessment_sessions.sql
+                  </code>{" "}
+                  中的 SQL 创建评估表。
+                </>
+              )}
             </p>
           )}
         </div>
@@ -216,8 +231,12 @@ export function AssessmentToolSelector({
                   {isLoading
                     ? "正在进入…"
                     : existing
-                      ? "继续评估 →"
-                      : "开始评估 →"}
+                      ? tool.value === "uploaded_report"
+                        ? "继续上传 →"
+                        : "继续评估 →"
+                      : tool.value === "uploaded_report"
+                        ? "开始上传 →"
+                        : "开始评估 →"}
                 </span>
                 </button>
 

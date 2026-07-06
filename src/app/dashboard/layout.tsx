@@ -2,6 +2,8 @@ import Link from "next/link";
 import { LogoutButton } from "@/components/logout-button";
 import { ToastProvider } from "@/components/ui/toast";
 
+export const dynamic = "force-dynamic";
+
 export default function DashboardLayout({
   children,
 }: {
@@ -30,6 +32,12 @@ export default function DashboardLayout({
                 className="text-sm text-zinc-400 transition-colors hover:text-zinc-100"
               >
                 学生档案
+              </Link>
+              <Link
+                href="/dashboard/assessments"
+                className="text-sm text-zinc-400 transition-colors hover:text-zinc-100"
+              >
+                评估报告
               </Link>
               <Link
                 href="/dashboard/iep"

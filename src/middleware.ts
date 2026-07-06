@@ -1,11 +1,12 @@
-import { createServerClient } from "@supabase/ssr";
+import {
+  CLOUDBASE_SESSION_COOKIE,
+  isCloudBaseConfigured,
+} from "@/lib/cloudbase/config";
+import { isAccessTokenExpired } from "@/lib/cloudbase/jwt";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!supabaseUrl || !supabaseAnonKey) {
+  if (!isCloudBaseConfigured()) {
     if (request.nextUrl.pathname.startsWith("/dashboard")) {
       const url = request.nextUrl.clone();
       url.pathname = "/auth/login";
@@ -16,47 +17,49 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  let supabaseResponse = NextResponse.next({ request });
+  const rawToken = request.cookies.get(CLOUDBASE_SESSION_COOKIE)?.value;
+  const tokenExpired = rawToken ? isAccessTokenExpired(rawToken) : false;
+  const accessToken = rawToken && !tokenExpired ? rawToken : undefined;
+  const { pathname } = request.nextUrl;
 
-  const supabase = createServerClient(
-    supabaseUrl,
-    supabaseAnonKey,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll();
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value),
-          );
-          supabaseResponse = NextResponse.next({ request });
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options),
-          );
-        },
-      },
-    },
-  );
-
-  let user = null;
-
-  try {
-    ({
-      data: { user },
-    } = await supabase.auth.getUser());
-  } catch (error) {
-    console.error("middleware auth check failed:", error);
-  }
-
-  if (!user && request.nextUrl.pathname.startsWith("/dashboard")) {
+  function redirectToLogin(redirectPath: string, reason?: string) {
     const url = request.nextUrl.clone();
     url.pathname = "/auth/login";
-    url.searchParams.set("redirect", request.nextUrl.pathname);
+    url.searchParams.set("redirect", redirectPath);
+    if (reason) {
+      url.searchParams.set("reason", reason);
+    }
+    const response = NextResponse.redirect(url);
+    if (rawToken && tokenExpired) {
+      response.cookies.delete(CLOUDBASE_SESSION_COOKIE);
+    }
+    return response;
+  }
+
+  if (!accessToken && pathname.startsWith("/dashboard")) {
+    return redirectToLogin(
+      pathname,
+      tokenExpired ? "session_expired" : undefined,
+    );
+  }
+
+  if (
+    accessToken &&
+    (pathname.startsWith("/auth/login") || pathname.startsWith("/auth/signup"))
+  ) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/dashboard";
+    url.search = "";
     return NextResponse.redirect(url);
   }
 
-  return supabaseResponse;
+  if (tokenExpired && rawToken) {
+    const response = NextResponse.next();
+    response.cookies.delete(CLOUDBASE_SESSION_COOKIE);
+    return response;
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {

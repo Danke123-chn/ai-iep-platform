@@ -1,0 +1,167 @@
+.iep-export-document {
+  box-sizing: border-box;
+  width: 794px;
+  background: #ffffff;
+  color: #000000;
+  font-family: SimSun, "Songti SC", "Microsoft YaHei", serif;
+  font-size: 12pt;
+  line-height: 1.65;
+  padding: 20mm 15mm;
+}
+
+.iep-export-document * {
+  box-sizing: border-box;
+}
+
+.iep-export-document__title {
+  margin: 0 0 10pt;
+  font-size: 22pt;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.iep-export-document__subtitle {
+  margin: 0 0 18pt;
+  font-size: 12pt;
+  line-height: 1.65;
+  text-align: center;
+}
+
+.iep-export-document__section-block {
+  margin: 0;
+}
+
+.iep-export-document__section {
+  margin: 0 0 10pt;
+  font-size: 12pt;
+  font-weight: 700;
+  line-height: 1.65;
+}
+
+.iep-export-document__spacer {
+  height: 10pt;
+}
+
+.iep-export-document__table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  margin-bottom: 0;
+  font-size: 10.5pt;
+}
+
+.iep-export-document__table th,
+.iep-export-document__table td {
+  border: 1px solid #000000;
+  padding: 7pt 8pt;
+  vertical-align: top;
+  word-break: break-word;
+  line-height: 1.65;
+}
+
+.iep-export-document__table th {
+  font-weight: 700;
+  text-align: center;
+  padding-top: 8pt;
+  padding-bottom: 8pt;
+}
+
+.iep-export-document__table--basic td {
+  min-height: 28pt;
+}
+
+.iep-export-document__table--assessment td,
+.iep-export-document__table--goals td {
+  min-height: 32pt;
+}
+
+.iep-export-document__label {
+  font-weight: 700;
+  width: 25%;
+}
+
+.iep-export-document__value {
+  width: 25%;
+}
+
+.iep-export-document__col-domain {
+  width: 12%;
+}
+
+.iep-export-document__col-long-goal {
+  width: 18%;
+}
+
+.iep-export-document__col-short-goal {
+  width: 22%;
+}
+
+.iep-export-document__col-method {
+  width: 14%;
+}
+
+.iep-export-document__col-date {
+  width: 16%;
+}
+
+.iep-export-document__col-progress {
+  width: 8%;
+}
+
+.iep-export-document__col-assess-domain {
+  width: 18%;
+}
+
+.iep-export-document__col-assess-level {
+  width: 10%;
+}
+
+.iep-export-document__col-assess-label {
+  width: 22%;
+}
+
+.iep-export-document__col-assess-desc {
+  width: 50%;
+}
+
+.iep-export-document__list {
+  margin: 0;
+  padding-left: 1.4em;
+  font-size: 12pt;
+}
+
+.iep-export-document__list li {
+  margin-bottom: 6pt;
+  line-height: 1.65;
+}
+
+.iep-export-document__signature {
+  margin: 0 0 10pt;
+  font-size: 12pt;
+  line-height: 1.65;
+}
+
+.pdf-export-mode.iep-export-document {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+.pdf-export-mode.iep-export-document th,
+.pdf-export-mode.iep-export-document td {
+  border: 1px solid #000000 !important;
+  background: #ffffff !important;
+}
+
+.pdf-export-mode.iep-export-document h1,
+.pdf-export-mode.iep-export-document h2,
+.pdf-export-mode.iep-export-document p,
+.pdf-export-mode.iep-export-document li {
+  color: #000000 !important;
+}
+
+.pdf-export-mode.iep-export-document section[data-pdf-keep-together],
+.pdf-export-mode.iep-export-document .iep-export-document__section-block {
+  background: transparent !important;
+  border: none !important;
+}

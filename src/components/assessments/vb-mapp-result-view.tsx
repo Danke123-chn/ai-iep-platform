@@ -1,7 +1,7 @@
 import { getPassRateColor, calcMilestonePassRate } from "@/lib/assessments/map-assessment-to-iep";
 import { getVbMappSeverityLabel, isVbMappNt, VB_MAPP_LEVELS } from "@/lib/types/assessment_types";
 import type { VbMappMilestoneSummary } from "@/lib/types/assessment_types";
-import { BarrierRadarChart } from "@/components/assessments/barrier-radar-chart";
+import { BarrierRadarChart } from "@/components/assessments/barrier-radar-chart.lazy";
 import type { VbMappResultData } from "@/lib/assessments/load-assessment-result";
 
 type VbMappResultViewProps = {
