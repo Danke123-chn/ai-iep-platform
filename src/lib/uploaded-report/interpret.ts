@@ -7,6 +7,10 @@ import {
 import type { ExtractedReportContent } from "@/lib/uploaded-report/extract-text";
 import { truncateText } from "@/lib/uploaded-report/extract-text";
 import {
+  mapExtractedStudentProfile,
+  type RawExtractedStudentProfile,
+} from "@/lib/uploaded-report/map-student-profile";
+import {
   detectedToolToDomainMode,
   normalizeInterpretationDomains,
   type DetectedReportTool,
@@ -14,6 +18,7 @@ import {
 } from "@/lib/uploaded-report/types";
 
 type RawInterpretation = {
+  studentProfile?: RawExtractedStudentProfile;
   detectedToolType?: string;
   summary?: string;
   reportAnalysis?: string;
@@ -48,7 +53,7 @@ function extractJsonObject(text: string): RawInterpretation {
 
 export async function interpretUploadedReport(params: {
   content: ExtractedReportContent;
-  studentName: string;
+  studentName?: string;
 }): Promise<UploadedReportInterpretation> {
   const { content, studentName } = params;
   const userPrompt =
@@ -70,6 +75,7 @@ export async function interpretUploadedReport(params: {
   const raw = extractJsonObject(response.content);
   const detectedToolType = parseDetectedTool(raw.detectedToolType);
   const domains = normalizeInterpretationDomains(raw.domains);
+  const studentProfile = mapExtractedStudentProfile(raw.studentProfile);
 
   if (domains.length === 0) {
     throw new Error("AI 未能从报告中提取评估领域，请换一份更清晰的报告重试");
@@ -85,6 +91,7 @@ export async function interpretUploadedReport(params: {
     strengths: raw.strengths?.trim() || "",
     needs: raw.needs?.trim() || "",
     domains,
+    studentProfile,
     extractedTextPreview:
       content.kind === "text"
         ? truncateText(content.text, 500)

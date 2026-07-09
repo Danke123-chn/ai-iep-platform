@@ -1,4 +1,18 @@
 import type { AssessmentLevel, IepDomainMode, IepFormDomain } from "@/types/iep";
+import type { DisabilityType, Gender } from "@/lib/types/student";
+
+export type ExtractedStudentProfile = {
+  name: string;
+  gender: Gender | null;
+  birth_date: string | null;
+  disability_types: DisabilityType[];
+  school: string | null;
+  grade: string | null;
+  class_name: string | null;
+  parent_name: string | null;
+  parent_phone: string | null;
+  family_notes: string | null;
+};
 
 export type DetectedReportTool =
   | "vb_mapp"
@@ -17,6 +31,7 @@ export type UploadedReportInterpretation = {
   strengths: string;
   needs: string;
   domains: IepFormDomain[];
+  studentProfile?: ExtractedStudentProfile;
   extractedTextPreview: string;
   uploadedAt: string;
 };

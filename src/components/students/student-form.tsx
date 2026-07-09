@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
+import { getAssessmentFormPath } from "@/lib/assessments/assessment-session-utils";
 import { createClient } from "@/lib/supabase/client";
+import type { AssessmentTool } from "@/lib/types/assessment_types";
 import {
   DISABILITY_TYPES,
   EMPTY_STUDENT_FORM,
@@ -21,6 +23,8 @@ type StudentFormProps = {
   mode: "create" | "edit";
   studentId?: string;
   initialData?: StudentFormData;
+  afterCreateTool?: AssessmentTool;
+  cancelHref?: string;
 };
 
 function formDataToPayload(data: StudentFormData) {
@@ -40,7 +44,13 @@ function formDataToPayload(data: StudentFormData) {
   };
 }
 
-export function StudentForm({ mode, studentId, initialData }: StudentFormProps) {
+export function StudentForm({
+  mode,
+  studentId,
+  initialData,
+  afterCreateTool,
+  cancelHref = "/dashboard/students",
+}: StudentFormProps) {
   const router = useRouter();
   const [form, setForm] = useState<StudentFormData>(
     initialData ?? EMPTY_STUDENT_FORM,
@@ -106,14 +116,45 @@ export function StudentForm({ mode, studentId, initialData }: StudentFormProps) 
         return;
       }
 
-      const { error } = await supabase.from("students").insert({
-        ...payload,
-        user_id: user.id,
-      });
+      const { data: created, error } = await supabase
+        .from("students")
+        .insert({
+          ...payload,
+          user_id: user.id,
+        })
+        .select("id")
+        .single();
 
-      if (error) {
-        setSubmitError(getDbErrorMessage(error.message));
+      if (error || !created) {
+        setSubmitError(getDbErrorMessage(error?.message ?? "创建失败"));
         setLoading(false);
+        return;
+      }
+
+      if (afterCreateTool) {
+        const { data: session, error: sessionError } = await supabase
+          .from("assessment_sessions")
+          .insert({
+            student_id: created.id,
+            assessor_id: user.id,
+            tool_type: afterCreateTool,
+            status: "in_progress",
+          })
+          .select("id")
+          .single();
+
+        if (sessionError || !session) {
+          setSubmitError(
+            getDbErrorMessage(sessionError?.message ?? "创建评估会话失败"),
+          );
+          setLoading(false);
+          return;
+        }
+
+        router.push(
+          getAssessmentFormPath(created.id, session.id, afterCreateTool),
+        );
+        router.refresh();
         return;
       }
     } else if (studentId) {
@@ -333,7 +374,7 @@ export function StudentForm({ mode, studentId, initialData }: StudentFormProps) 
 
       <div className="flex flex-col-reverse gap-3 border-t border-zinc-800 pt-6 sm:flex-row sm:justify-end">
         <Link
-          href="/dashboard/students"
+          href={cancelHref}
           className="inline-flex items-center justify-center rounded-lg border border-zinc-700 px-4 py-2.5 text-sm font-medium text-zinc-300 transition-colors hover:bg-zinc-800"
         >
           取消

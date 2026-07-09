@@ -70,7 +70,13 @@ export function StudentList({ initialStudents }: StudentListProps) {
 
       {students.length === 0 ? (
         <div className="rounded-xl border border-dashed border-zinc-700 bg-zinc-900/50 px-6 py-16 text-center">
-          <p className="text-zinc-400">还没有学生档案，点击右上角添加</p>
+          <p className="text-zinc-400">还没有学生档案</p>
+          <Link
+            href="/dashboard"
+            className="mt-4 inline-block text-sm text-violet-400 hover:text-violet-300"
+          >
+            前往开始评估 →
+          </Link>
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

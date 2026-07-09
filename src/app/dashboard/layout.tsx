@@ -27,7 +27,7 @@ export default async function DashboardLayout({
                 href="/dashboard"
                 className="text-sm text-zinc-400 transition-colors hover:text-zinc-100"
               >
-                控制台
+                开始评估
               </Link>
               <Link
                 href="/dashboard/students"
